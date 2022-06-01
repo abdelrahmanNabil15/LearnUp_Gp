@@ -104,4 +104,14 @@ class RejectUserLoadingState extends learnUpStates {}
 class RejectUserSuccessState extends learnUpStates {
 }
 class RejectUserErrorState extends learnUpStates{}
+class AddQuestionLoadingState extends learnUpStates {}
+
+class AddQuestionSuccessState extends learnUpStates {
+}
+class AddQuestionErrorState extends learnUpStates{
+
+  final dynamic error=[];
+  AddQuestionErrorState(error);
+
+}
 

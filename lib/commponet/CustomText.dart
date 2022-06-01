@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class customText extends StatelessWidget {
-  final String text;
+  final String? text;
    double fontSize;
 
   final Color color;
@@ -28,7 +28,7 @@ class customText extends StatelessWidget {
       alignment:  alignment ,
       child: Text(
 
-        text,
+        text!,
 
         // overflow: TextOverflow.ellipsis,
         maxLines: maxline,

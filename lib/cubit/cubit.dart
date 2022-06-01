@@ -13,9 +13,11 @@ import 'package:untitled2/modules/Profile/profile_screen.dart';
 import 'package:untitled2/modules/home/home_screen.dart';
 import 'package:untitled2/modules/notification/notification_screen.dart';
 
+import '../model/AnswerModel.dart';
 import '../model/CreateRoom.dart';
 import '../model/GetInterests.dart';
 import '../model/GetRoomByinterest.dart';
+import '../model/QuestionModel.dart';
 import '../model/Requesteduserss.dart';
 import '../model/RoomsByInterests.dart';
 import '../model/User_model.dart';
@@ -623,5 +625,142 @@ dynamic join=[];
       }
     });
   }
+  dynamic errors=[];
+  void CreateQuestion({
+    required String title,
+    required String description,
+    required id,
+  }) {
+    emit(AddQuestionLoadingState());
 
+    DioHelper.postData(
+      url: AddQuestion+id+AddQuestion1,
+      token: token,
+      data: {
+        'questionTitle': title,
+        'questionDescription': description,
+      },
+    ).then((value) {
+      print ("done");
+
+      emit(AddQuestionSuccessState(  ));
+
+    }).catchError((error) {
+
+      errors=error.response?.data;
+      print( errors["errors"][0]["message"]);
+      if (kDebugMode) {
+        print('Dio error!');
+      }
+      if (kDebugMode) {
+        print('STATUS: ${error.response?.statusCode}');
+      }
+      if (kDebugMode) {
+        print('DATA: ${error.response?.data}');
+      }
+      if (kDebugMode) {
+        print('HEADERS: ${error.response?.headers}');
+      }
+      emit(AddQuestionErrorState(errors));
+      if (kDebugMode) {
+        print(error.toString());
+      }
+
+
+    });
+  }
+
+  QuestionModel?questionModel;
+  void GetQuestions({required String idRoom}) {
+
+    DioHelper.getData(url:AddQuestion+idRoom+AddQuestion1, token: token).then((value) {
+
+      questionModel=QuestionModel.fromJson(value.data);
+      print(questionModel!.Questions![0].questionDescription);
+
+
+
+
+
+    }).catchError((error) {
+      if (error ) {
+        print(token);
+        print('Dio error!');
+
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        // Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+
+      } else {
+
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        // Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+
+
+      }
+    });
+  }
+
+  AnswerModel?answerModel;
+
+  void Getanswer({required String idquestion}) {
+
+    DioHelper.getData(url:AddQuestion+idquestion, token: token).then((value) {
+
+      answerModel=AnswerModel.fromJson(value.data);
+      print(answerModel!.Questions!.questionDescription);
+
+    }).catchError((error) {
+      if (error ) {
+        print(token);
+        print('Dio error!');
+
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        // Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+
+      } else {
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        // Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+      }
+    });
+  }
 }

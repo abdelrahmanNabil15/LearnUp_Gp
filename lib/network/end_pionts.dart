@@ -20,3 +20,5 @@ const requestedUsers='/RequestedUsers';
 const AcceptUser='/AcceptUser/';
 const GetRoomss='/api/rooms';
 const  RejectUsers='/RejectUser/';
+const AddQuestion='/api/Question/';
+const AddQuestion1='/Questions';

@@ -8,6 +8,7 @@ class DefaultFormField extends StatelessWidget {
   TextInputType type;
   String label;
   IconData prefix;
+  IconButton? suffix;
   TextInputAction inputAction;
   Function(String value) validator;
   bool isobscureText=false;
@@ -21,6 +22,7 @@ class DefaultFormField extends StatelessWidget {
       required this.prefix,
       required this.inputAction,
         required this.validator,
+        this.suffix,
       required this.isobscureText})
       : super(key: key);
 
@@ -56,6 +58,7 @@ class DefaultFormField extends StatelessWidget {
         prefixIcon: Icon(
           prefix,
         ),
+        suffixIcon:suffix
       ),
     );
   }
