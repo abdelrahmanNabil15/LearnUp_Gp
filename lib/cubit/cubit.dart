@@ -672,6 +672,7 @@ dynamic join=[];
 
   QuestionModel?questionModel;
   void GetQuestions({required String idRoom}) {
+    emit(GetQuestionLoadingState());
 
     DioHelper.getData(url:AddQuestion+idRoom+AddQuestion1, token: token).then((value) {
 
@@ -679,7 +680,7 @@ dynamic join=[];
       print(questionModel!.Questions![0].questionDescription);
 
 
-
+      emit(GetQuestionSuccessState(  ));
 
 
     }).catchError((error) {
@@ -699,6 +700,7 @@ dynamic join=[];
         // Error due to setting up or sending the request
         print('Error sending request!');
         print(error.message);
+        emit(GetQuestionErrorState( ));
 
       } else {
 
@@ -715,7 +717,7 @@ dynamic join=[];
         print('Error sending request!');
         print(error.message);
 
-
+        emit(GetQuestionErrorState( ));
       }
     });
   }
@@ -724,11 +726,12 @@ dynamic join=[];
 
   void Getanswer({required String idquestion}) {
 
+    emit(GetanswerLoadingState());
     DioHelper.getData(url:AddQuestion+idquestion, token: token).then((value) {
 
       answerModel=AnswerModel.fromJson(value.data);
       print(answerModel!.Questions!.questionDescription);
-
+      emit(GetanswerSuccessState(  ));
     }).catchError((error) {
       if (error ) {
         print(token);
@@ -746,7 +749,7 @@ dynamic join=[];
         // Error due to setting up or sending the request
         print('Error sending request!');
         print(error.message);
-
+        emit(GetanswerErrorState( ));
       } else {
         if (kDebugMode) {
           print('STATUS: ${error.response?.statusCode}');
@@ -760,6 +763,7 @@ dynamic join=[];
         // Error due to setting up or sending the request
         print('Error sending request!');
         print(error.message);
+        emit(GetanswerErrorState( ));
       }
     });
   }

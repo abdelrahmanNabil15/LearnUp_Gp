@@ -35,7 +35,7 @@ class RoomsScreen extends StatelessWidget {
         create: (BuildContext context) => learnUpCuibit()
           ..GetRoombyId(id)
           ..RequestedUsers(id.toString())
-          ..GetQuestions(idRoom: id.toString()),
+          ..GetQuestions(idRoom: id.toString())..Getanswer(idquestion:2.toString()),
         child: BlocConsumer<learnUpCuibit, learnUpStates>(
             listener: (context, state) {},
             builder: (context, Object? state) {
@@ -378,6 +378,10 @@ class RoomsScreen extends StatelessWidget {
                                                         children: [
                                                           TextButton(
                                                               onPressed: () {
+                                                                cubit.Getanswer(idquestion:cubit
+                                                                    .questionModel!
+                                                                    .Questions![index]
+                                                                    .id!.toString() );
                                                                 Navigator.of(
                                                                         context)
                                                                     .push(
@@ -419,56 +423,7 @@ class RoomsScreen extends StatelessWidget {
                                                       ),
                                                     ),
 
-                                                    //answer widgets for user
-                                                    // ListView.separated(
-                                                    //     itemCount: 2,
-                                                    //     physics:
-                                                    //         const BouncingScrollPhysics(),
-                                                    //     separatorBuilder:
-                                                    //         (context, index) =>
-                                                    //             SizedBox(
-                                                    //               height: 20.h,
-                                                    //             ),
-                                                    //     shrinkWrap: true,
-                                                    //     itemBuilder:
-                                                    //         (context, index) {
-                                                    //       return Column(
-                                                    //         children: [
-                                                    //           Padding(
-                                                    //             padding: EdgeInsets
-                                                    //                 .symmetric(
-                                                    //                     horizontal:
-                                                    //                         30.w),
-                                                    //             child:
-                                                    //                 customText(
-                                                    //               color: Colors
-                                                    //                   .black,
-                                                    //               fontWeight:
-                                                    //                   FontWeight
-                                                    //                       .bold,
-                                                    //               text:
-                                                    //                   "abdelrahman nabil",
-                                                    //             ),
-                                                    //           ),
-                                                    //           Padding(
-                                                    //             padding: EdgeInsets
-                                                    //                 .symmetric(
-                                                    //                     horizontal:
-                                                    //                         40.0.w),
-                                                    //             child:
-                                                    //                 customText(
-                                                    //               color: Colors
-                                                    //                   .black54,
-                                                    //               fontWeight:
-                                                    //                   FontWeight
-                                                    //                       .normal,
-                                                    //               text:
-                                                    //                   "Since you dont know the key name in advance, you will have to iterate over all of them looking for JSON object members that look like they contain ID and owner. Something like this:",
-                                                    //             ),
-                                                    //           )
-                                                    //         ],
-                                                    //       );
-                                                    //     }),
+
                                                   ],
                                                 );
                                               }),

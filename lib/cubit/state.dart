@@ -114,4 +114,14 @@ class AddQuestionErrorState extends learnUpStates{
   AddQuestionErrorState(error);
 
 }
+class GetanswerLoadingState extends learnUpStates {}
+
+class GetanswerSuccessState extends learnUpStates {
+}
+class GetanswerErrorState extends learnUpStates{}
+class GetQuestionLoadingState extends learnUpStates {}
+
+class GetQuestionSuccessState extends learnUpStates {
+}
+class GetQuestionErrorState extends learnUpStates{}
 
