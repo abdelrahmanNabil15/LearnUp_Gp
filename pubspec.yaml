@@ -55,6 +55,8 @@ dependencies:
   agora_uikit: ^0.0.4
   agora_rtm: ^1.1.0
   permission_handler:
+  image_picker: ^0.8.5+3
+  file_picker: ^4.6.1
 
   dependencies:
   conditional_builder_null_safety: ^0.0.6
