@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:untitled2/cubit/state.dart';
+
 
 import 'cubit/cubit.dart';
+import 'cubit/state.dart';
 
 class HomeLayout extends StatefulWidget {
   const HomeLayout({Key? key}) : super(key: key);
@@ -22,12 +23,7 @@ class _homeLayoutState extends State<HomeLayout> {
           builder: (context, state) {
             var cubit = learnUpCuibit.get(context);
             return Scaffold(
-              appBar: AppBar(
-                title: const Text(" LEARN UP "),
-                actions: [
-                  IconButton(onPressed: () {}, icon: const Icon(Iconsax.search_status))
-                ],
-              ),
+
               body: cubit.Screen[cubit.currentIndex],
               bottomNavigationBar: BottomNavigationBar(
                 items: cubit.bottomItem,

@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:untitled2/commponet/CustomText.dart';
-import 'package:untitled2/commponet/defult_button.dart';
-import 'package:untitled2/cubit/cubit.dart';
+
 
 import '../modules/Rooms/RoomBycategory.dart';
 import '../modules/Rooms/RoomsScreen.dart';
+import 'CustomText.dart';
 import 'const.dart';
 
 Widget Cateogery(cubit) => SizedBox(
@@ -494,7 +493,9 @@ Widget ROOMS(cubit) => GestureDetector(
                   child: customText(
                     maxline: 1,
                     fontWeight: FontWeight.normal,
-                    text: '44 listening',
+                    text:  cubit
+                        .roombyInterest!.result![index].numberOfJoinedUsers.toString()=="0"?"no listening": cubit
+                        .roombyInterest!.result![index].numberOfJoinedUsers.toString(),
                   ),
                 ),
                 Expanded(

@@ -1,12 +1,13 @@
 // ignore_for_file: avoid_print
 
+import 'package:LearnUP/modules/Register/cubit/state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled2/modules/Register/cubit/state.dart';
-import 'package:untitled2/network/CacheHelper.dart';
-import 'package:untitled2/network/DioHelper.dart';
-import 'package:untitled2/network/end_pionts.dart';
+
 
 import '../../../model/RegisterModel.dart';
+import '../../../network/CacheHelper.dart';
+import '../../../network/DioHelper.dart';
+import '../../../network/end_pionts.dart';
 
 class RegisterCubit extends Cubit<RegisterStates> {
   RegisterCubit() : super(RegisterInitialState());

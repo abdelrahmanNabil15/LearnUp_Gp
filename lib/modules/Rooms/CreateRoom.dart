@@ -73,7 +73,8 @@ class _CreateRoomState extends State<CreateRoom> {
         },
         builder: (context, Object? state) {
           var cubit = learnUpCuibit.get(context);
-          return Scaffold(
+          return Scaffold( appBar: AppBar(
+          title: const Text(" LEARN UP "),),
               key: _key,
               body: SafeArea(
                 child: Form(

@@ -1,22 +1,27 @@
+import 'package:LearnUP/modules/Rooms/RoomsScreen.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:untitled2/i_cons_icons.dart';
 
 import '../../commponet/CustomText.dart';
 import '../../commponet/commpnet.dart';
 import '../../commponet/const.dart';
 import '../../cubit/cubit.dart';
 import '../../cubit/state.dart';
+import '../../network/CacheHelper.dart';
 
 class QuestionScreen extends StatelessWidget {
   final String idQuestion;
+  dynamic idowner = CacheHelper.getData(key: 'id');
   var interestController = TextEditingController();
   var AnswerController = TextEditingController();
+  var AddAnswerController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+  final _formKey1 = GlobalKey<FormState>();
 
   QuestionScreen({Key? key, required this.idQuestion}) : super(key: key);
 
@@ -31,7 +36,7 @@ class QuestionScreen extends StatelessWidget {
         }, builder: (context, Object? state) {
           var cubit = learnUpCuibit.get(context);
           return ConditionalBuilder(
-            condition: cubit.answerModel != null,
+            condition: cubit.answerModel != null||state is !GetanswerLoadingState  ,
             builder: (context) {
               return Scaffold(
                 appBar: AppBar(),
@@ -47,6 +52,9 @@ class QuestionScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             text: cubit.answerModel!.Questions!.userName!,
                           ),
+                          idowner==cubit.answerModel!.Questions!.userId?
+
+                              //edit Qustion and delet it
                           IconButton(
                               onPressed: () {
                                 showModalBottomSheet(
@@ -107,11 +115,20 @@ class QuestionScreen extends StatelessWidget {
                                                               TextButton(
                                                                   onPressed:
                                                                       () {
+                                                                        Navigator.pop(context);
                                                                     Future.delayed(
                                                                         const Duration(seconds: 0),
                                                                         () => showDialog(
                                                                             context: context,
-                                                                            builder: (context) => AlertDialogs(
+                                                                            builder: (context) => AlertDialogs( (){
+                                                                              cubit.DeleteQuestions(IdQs: idQuestion);
+                                                                              Navigator.pop(context);
+
+                                                                              Navigator.pop(context);
+                                                                              cubit..GetQuestions(idRoom: cubit.answerModel!.Questions!.roomId.toString());
+
+
+                                                                            } ,
                                                                                   context,
                                                                                   "Delete question?",
                                                                                   "This can't be undone and it will be removed form your room",
@@ -144,7 +161,7 @@ class QuestionScreen extends StatelessWidget {
                                                       ),
                                                     )));
                               },
-                              icon: Icon(Icons.more_vert_outlined))
+                              icon: Icon(Icons.more_vert_outlined)): Text("")
                         ],
                       ),
                     ),
@@ -183,7 +200,7 @@ class QuestionScreen extends StatelessWidget {
                                       ),
                                       //icon more
 
-
+                                      idowner==cubit.answerModel!.Questions!.answers![index].userId?
                                       IconButton(
                                           onPressed: () {
                                             showModalBottomSheet(
@@ -217,7 +234,84 @@ class QuestionScreen extends StatelessWidget {
                                                                 children: [
                                                                   TextButton(
                                                                       onPressed:
-                                                                          () {},
+                                                                          () {
+
+                                                                            Future.delayed(
+                                                                                const Duration(seconds: 0),
+                                                                            () => showDialog(
+
+
+
+                                                                                context: context,
+                                                                                builder: (context) =>
+                                                                            AlertDialog(
+                                                                              title: customText(
+                                                                                  maxline: 1,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  text: "Edit Answer ",
+                                                                                  fontSize: 20.sp,
+                                                                                  color: Colors.black),
+                                                                              content:Form(
+                                                                               key: _formKey1,
+                                                                                child: TextFormField (controller: AnswerController,
+                                                                                  decoration: InputDecoration(
+                                                                                    hintText: "update your answer",
+                                                                                    hintStyle: TextStyle(
+                                                                                      color: Colors.grey
+                                                                                    )
+                                                                                  ),
+                                                                                  validator:  (val) {
+                                                                                    if (val == null || val.isEmpty) {
+                                                                                      return 'Enter Your update ';
+                                                                                    }
+                                                                                    return null;
+                                                                                  },
+
+
+                                                                                ),
+                                                                              ),
+                                                                              actions: <Widget>[
+                                                                                Row(
+                                                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                                                  children: [
+                                                                                    TextButton(
+                                                                                      onPressed: () {
+
+                                                                                        Navigator.pop(context, 'Cancel');},
+                                                                                      child: customText(
+                                                                                          maxline: 1,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                          text: 'Cancel',
+                                                                                          color: Colors.black),
+                                                                                    ),
+                                                                                    TextButton(
+                                                                                      onPressed:(){
+                                                                                        if (_formKey1.currentState!.validate()){
+
+                                                                                        cubit.UpdateYourAnswer(
+                                                                                          UpdateAnswer: AnswerController.text,
+                                                                                          IdAns: cubit.answerModel!.Questions!
+                                                                                            .answers![index].answerId .toString(),
+
+                                                                                        );
+                                                                                        AnswerController.clear();
+                                                                                        cubit.Getanswer(idquestion: idQuestion.toString());
+                                                                                        Navigator.pop(context, 'Edit');
+                                                                                      }},
+                                                                                      child: customText(
+                                                                                          maxline: 1,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                          text: 'Confirm',
+                                                                                          fontSize: 18.sp,
+                                                                                          color: mainColor),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ],
+                                                                            )));
+
+                                                                          },
                                                                       child: Row(
                                                                         children: [
                                                                           Padding(
@@ -248,8 +342,20 @@ class QuestionScreen extends StatelessWidget {
                                                                         Future.delayed(
                                                                             const Duration(seconds: 0),
                                                                                 () => showDialog(
+
+
+
                                                                                 context: context,
                                                                                 builder: (context) => AlertDialogs(
+                                                                                      () {
+
+                                                                                    cubit.Deleteanswer(idasnwer: cubit.answerModel!.Questions!
+                                                                                        .answers![index].answerId .toString());
+                                                                                    cubit.Getanswer(idquestion: idQuestion.toString());
+                                                                                    Navigator.pop(context, 'Delete');
+
+                                                                                  },
+
                                                                                   context,
                                                                                   "Delete answer?",
                                                                                   "This can't be undone and it will be removed form your room",
@@ -282,7 +388,7 @@ class QuestionScreen extends StatelessWidget {
                                                           ),
                                                         )));
                                           },
-                                          icon: Icon(Icons.more_vert))
+                                          icon: Icon(Icons.more_vert)):Text("")
                                     ],
                                   ),
                                 ),
@@ -335,43 +441,60 @@ class QuestionScreen extends StatelessWidget {
                               ],),
                             ),
                             // textFormField for answer
-                            TextFormField(
-                              controller:AnswerController ,
-                              validator:  (val) {
-                                if (val == null || val.isEmpty) {
-                                  return 'Enter start date  please';
-                                }
-                                return null;
-                              },
+                            Form(
+                              key: _formKey,
+                              child: TextFormField(
+                                controller:AddAnswerController,
+                                validator:  (val) {
+                                  if (val == null || val.isEmpty) {
+                                    return 'Enter enter your answer';
+                                  }
+                                  return null;
+                                },
 
 
+                              ),
                             ),
                             // button answer to  question
-                            Align(
-                                alignment: Alignment.bottomRight,
-                                child: Padding(
-                                  padding:
-                                        EdgeInsets.only(right: 10.0.w),
-                                  child: ElevatedButton(
-                                      style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  mainColor),
-                                          shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                              RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          18.0),
-                                                  side: const BorderSide(
-                                                      color: mainColor)))),
-                                      onPressed: () {},
-                                      child: const Text(
-                                        'Reply',
-                                        style:
-                                            TextStyle(color: Colors.white),
-                                      )),
-                                )),
+                            Expanded(
+                              child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: Padding(
+                                    padding:
+                                          EdgeInsets.only(right: 10.0.w),
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    mainColor),
+                                            shape: MaterialStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            18.0),
+                                                    side: const BorderSide(
+                                                        color: mainColor)))),
+                                        onPressed: () {
+    if (_formKey.currentState!.validate()) {
+   cubit.AddAnswers(
+       YourAnwer: AddAnswerController.text  ,
+       id: cubit.answerModel!.Questions!.roomId,
+       Idansweer:idQuestion.toString());
+   AddAnswerController.clear();
+   cubit.Getanswer(idquestion: idQuestion.toString());
+
+
+    }
+
+    },
+                                        child: const Text(
+                                          'Reply',
+                                          style:
+                                              TextStyle(color: Colors.white),
+                                        )),
+                                  )),
+                            ),
                           ],
                         ))
                   ],
@@ -385,11 +508,7 @@ class QuestionScreen extends StatelessWidget {
         }));
   }
 
-  Widget AlertDialogs(
-    BuildContext context,
-    String title,
-    content,
-  ) {
+  Widget AlertDialogs(VoidCallback? functionDelete, BuildContext context, String title, content,) {
     return AlertDialog(
       title: customText(
           maxline: 1,
@@ -412,9 +531,7 @@ class QuestionScreen extends StatelessWidget {
                   color: Colors.black),
             ),
             TextButton(
-              onPressed: () {
-                Navigator.pop(context, 'Delete');
-              },
+              onPressed:functionDelete,
               child: customText(
                   maxline: 1,
                   fontWeight: FontWeight.bold,

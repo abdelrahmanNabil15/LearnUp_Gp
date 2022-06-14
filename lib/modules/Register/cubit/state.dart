@@ -1,7 +1,5 @@
-import 'package:untitled2/model/RegisterModel.dart';
 
-// ignore: unused_import
-import 'package:untitled2/model/User_model.dart';
+import '../../../model/RegisterModel.dart';
 
 abstract class RegisterStates {}
 

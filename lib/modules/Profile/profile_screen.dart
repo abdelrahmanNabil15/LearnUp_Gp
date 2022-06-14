@@ -1,16 +1,15 @@
 // ignore_for_file: camel_case_types
 
+import 'package:LearnUP/modules/Profile/profile.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:untitled2/commponet/ProfileMenu.dart';
-
-import 'package:untitled2/modules/Profile/profile.dart';
+import 'package:iconsax/iconsax.dart';
 
 
-
+import '../../commponet/ProfileMenu.dart';
 import '../../commponet/commpnet.dart';
 import '../../cubit/cubit.dart';
 import '../../cubit/state.dart';
@@ -36,7 +35,11 @@ class profile_screen extends StatelessWidget {
                   builder: (context) {
                     var cubit = learnUpCuibit.get(context);
 
-                    return Scaffold(
+                    return Scaffold(    appBar: AppBar(
+                    title: const Text(" LEARN UP "),
+                    actions: [
+                    IconButton(onPressed: () {}, icon: const Icon(Iconsax.search_status))
+                    ],),
                       body: SingleChildScrollView(
                         child: Column(
                           children: [

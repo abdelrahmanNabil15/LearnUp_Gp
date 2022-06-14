@@ -26,11 +26,11 @@ class MyRoom extends StatelessWidget {
           var cubit = learnUpCuibit.get(context);
           return  Scaffold(
             appBar: AppBar( ),
-            body: ConditionalBuilder(
+              body: ConditionalBuilder(
             condition: cubit.usermodel!=null,
             builder:( context ) {
 
-            return
+            return cubit.usermodel!.result!.createdRooms!.isNotEmpty?
                 SingleChildScrollView(
                 child: Column(
                   children: [
@@ -220,11 +220,18 @@ maxline: 3,
                     ),
                   ],
                 ),
-              );
+              ):Container( color:Colors.white,child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+              children: [SizedBox(height: 80.h,),
+                Center( child:  Image.asset('assets/Warning.png'),),
+                customText(fontWeight: FontWeight.bold,text: "There is no rooms!",
+                  color: Colors.black,
+                  fontSize: 22.sp,alignment: Alignment.center,)
+              ],
+            ));
 
             } ,
             fallback:  (context) => Center(child: Container(child: spinkitCircle)),
-          ),
+          )
           );
         },
 

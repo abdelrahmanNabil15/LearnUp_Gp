@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:untitled2/commponet/const.dart';
+
+
+import 'const.dart';
 
 class DefaultButton extends StatelessWidget {
   double width;

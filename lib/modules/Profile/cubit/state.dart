@@ -1,4 +1,4 @@
-import 'package:untitled2/model/User_model.dart';
+
 /*
 abstract class UserDataStates {}
 

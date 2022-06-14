@@ -3,9 +3,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled2/modules/Profile/cubit/state.dart';
-import 'package:untitled2/modules/login/Loginscreen.dart';
-import 'package:untitled2/network/CacheHelper.dart';
+
 
 import '../../../model/GetInterests.dart';
 import '../../../model/User_model.dart';

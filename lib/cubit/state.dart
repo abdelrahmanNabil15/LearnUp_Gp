@@ -1,6 +1,5 @@
 // ignore_for_file: camel_case_types
 
-import 'package:untitled2/modules/Rooms/CreateRoom.dart';
 
 import '../model/CreateRoom.dart';
 import '../model/RoomsJoined.dart';
@@ -124,4 +123,32 @@ class GetQuestionLoadingState extends learnUpStates {}
 class GetQuestionSuccessState extends learnUpStates {
 }
 class GetQuestionErrorState extends learnUpStates{}
+class UploadFilesLoadingState extends learnUpStates {}
+
+class UploadFilesSuccessState extends learnUpStates {
+}
+class UploadFilesErrorState extends learnUpStates{}
+class DeleteanswerLoadingState extends learnUpStates {}
+
+class DeleteanswerSuccessState extends learnUpStates {
+}
+class DeleteanswerErrorState extends learnUpStates{}
+class FilesPickedSuccessState extends learnUpStates{}
+class UpdateanswerLoadingState extends learnUpStates {}
+
+class UpdateanswerSuccessState extends learnUpStates {
+}
+class UpdateanswerErrorState extends learnUpStates{}
+class AddanswerLoadingState extends learnUpStates {}
+
+class AddanswerSuccessState extends learnUpStates {
+}
+class AddanswerErrorState extends learnUpStates{}
+
+
+class GetMaterialsLoadingState extends learnUpStates {}
+
+class GetMaterialsSuccessState extends learnUpStates {
+}
+class GetMaterialsErrorState extends learnUpStates{}
 

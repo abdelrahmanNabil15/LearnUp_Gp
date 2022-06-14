@@ -1,4 +1,4 @@
-name: untitled2
+name: LearnUP
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -49,17 +49,18 @@ dependencies:
   iconsax: ^0.0.8
   icon_badge: ^1.0.0
   http: ^0.13.4
-  webview_flutter: ^3.0.4
-  url_launcher: ^6.1.2
   agora_rtc_engine: ^4.0.6
   agora_uikit: ^0.0.4
   agora_rtm: ^1.1.0
   permission_handler:
   image_picker: ^0.8.5+3
   file_picker: ^4.6.1
+  change_app_package_name:
+  mime_type: ^1.0.0
 
   dependencies:
   conditional_builder_null_safety: ^0.0.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -7,17 +7,23 @@ class RoomModel {
   late String name;
   late String description;
   late String statusId;
+  late int numberOfJoinedUsers;
+  late int numberOfRejectedUsers;
+  late int numberOfRequestedUsers;
   late Status status;
   late double price;
+
   late bool isPublic;
   late  String startDate;
   late String expectedEndDate;
   late String finishDate;
   List<Interests>? interests;
  late UserRoomStatus userRoomStatus;
-
   RoomModel(
       {required this.id,
+      required this.numberOfJoinedUsers,
+      required this.numberOfRequestedUsers,
+      required this.numberOfRejectedUsers,
         required this.ownerId,
         required this.ownerName,
         required this.name,
@@ -33,6 +39,9 @@ class RoomModel {
 
   RoomModel.fromJson( dynamic json) {
     id = json['id']??"";
+    numberOfJoinedUsers = json['numberOfJoinedUsers']??"";
+    numberOfRequestedUsers = json['numberOfRequestedUsers']??"";
+    numberOfRejectedUsers = json['numberOfRejectedUsers']??"";
     ownerId = json['ownerId']??"";
     ownerName = json['ownerName']??"";
     name = json['name']??"";
