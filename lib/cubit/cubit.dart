@@ -20,11 +20,17 @@ import '../model/GetInterests.dart';
 import '../model/GetRoomByinterest.dart';
 import '../model/MaterialsModel.dart';
 import '../model/QuestionModel.dart';
+import '../model/Report.dart';
 import '../model/Requesteduserss.dart';
+import '../model/RoomReportById.dart';
 import '../model/RoomsByInterests.dart';
 import '../model/RoomsJoined.dart';
+import '../model/UserRoomReport.dart';
+import '../model/UserRoomReport.dart';
+import '../model/UserRoomReport.dart';
 import '../model/User_model.dart';
 
+import '../model/searchmodel.dart';
 import '../modules/Profile/profile_screen.dart';
 import '../modules/home/home_screen.dart';
 import '../modules/login/Loginscreen.dart';
@@ -40,7 +46,6 @@ class learnUpCuibit extends Cubit<learnUpStates> {
   static learnUpCuibit get(context) => BlocProvider.of(context);
   RoombyId? roombyId;
   dynamic token = CacheHelper.getData(key: 'result');
-
   int currentIndex = 0;
   List<BottomNavigationBarItem> bottomItem = [
     const BottomNavigationBarItem(
@@ -56,19 +61,16 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       label: "Profile ",
     )
   ];
-
   void changeBottomNavBar(int index) {
     currentIndex = index;
     emit(learnUpBottomNavInitStates());
   }
-
   List<Widget> Screen = [
     HomeScreen(),
-    const notification_screen(),
+    Notification_screen(),
     profile_screen()
   ];
   List<dynamic> business = [];
-
   Widget? getFAB() {
     if (Screen[currentIndex] == 0) {
       return const FloatingActionButton(
@@ -82,7 +84,6 @@ class learnUpCuibit extends Cubit<learnUpStates> {
           onPressed: null);
     }
   }
-
   void startTimer(double _progress) {
     Timer.periodic(
       const Duration(seconds: 1),
@@ -96,7 +97,6 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }),
     );
   }
-
   void GetRoombyId(int id) {
     emit(RoomsloadingsStates());
     DioHelper.getData(url: ROOMbyId + id.toString(), token: token).then((
@@ -127,14 +127,10 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
   Usermodel? usermodel;
   Getinterest? getinterest;
   Getinterest? getAllinterest;
-
   dynamic interest = [];
-
-
   void GetUserdata() {
     emit(UserDataLoadingState());
     DioHelper.getData(url: User, token: token).then((value) {
@@ -160,7 +156,6 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
   void GetInterest() {
     emit(GetInterestsLoadingState());
     DioHelper.getData(url: Interest, token: token).then((value) {
@@ -199,7 +194,6 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
   void GetAllInterests() {
     emit(GetAllInterestsLoadingState());
     DioHelper.getData(url: GetAllInterest, token: token).then((value) {
@@ -238,12 +232,10 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
-  void Addintrest({required String interestdata}) {
+  void Addintrest({required List interestdata}) {
     emit(InterestsLoadingState());
     DioHelper.postData(url: Interest, token: token, data: {
-      "interest": interestdata,
-      "ignoreSimilarity": true
+      "Interests": interestdata,
     },).then((value) {
       if (kDebugMode) {
         print(value.data);
@@ -251,9 +243,6 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       emit(InterestsSuccessState());
     }).catchError((error) {
       if (error.response != null) {
-        if (kDebugMode) {
-          print(token);
-        }
         if (kDebugMode) {
           print('Dio error!');
         }
@@ -266,10 +255,7 @@ class learnUpCuibit extends Cubit<learnUpStates> {
         if (kDebugMode) {
           print('HEADERS: ${error.response?.headers}');
         }
-        if (kDebugMode) {
-          print(token);
-        }
-        emit(InterestsErrorState());
+        emit(InterestsErrorState(errors["messageCode"]));
       } else {
         // Error due to setting up or sending the request
         if (kDebugMode) {
@@ -278,12 +264,10 @@ class learnUpCuibit extends Cubit<learnUpStates> {
         if (kDebugMode) {
           print(error.message);
         }
-
-        emit(UserDataErrorState());
+        emit(InterestsErrorState(errors["messageCode"]));
       }
     });
   }
-
   void SignOut(context) {
     CacheHelper.removeData(key: 'result').then((value) {
       if (value) {
@@ -304,11 +288,9 @@ class learnUpCuibit extends Cubit<learnUpStates> {
     }
     );
   }
-
   creaateRooms?rooms;
-
-//create Room
-  void CreateRooms({required String Name, required String description, required int Cost, required List interests, required String StartDate, required String EndDate,}) {
+  ///create Room
+  void CreateRooms({required String Name, required String description, required int Cost, required List interests, required DateTime StartDate, required DateTime EndDate,}) {
     emit(CreateRoomLoadingState());
 
     DioHelper.postData(
@@ -318,8 +300,8 @@ class learnUpCuibit extends Cubit<learnUpStates> {
         'roomName': Name,
         'roomDescription': description,
         'price': Cost,
-        'expectedEndDate': EndDate,
-        'startDate': StartDate,
+        'expectedEndDate': EndDate.toIso8601String(),
+        'startDate': StartDate.toIso8601String(),
         'interests': interests,
 
       },
@@ -349,9 +331,7 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
   RoombyInterest? roombyInterest;
-
   void GetRoomByInterest(String Interests) {
     emit(GetRoomByInterestLoadingState());
     DioHelper.getData(url: GetRoomInterest + Interests, token: token).then((
@@ -385,9 +365,7 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
   dynamic join = [];
-
   void joinRoom(String idRoom) {
     emit(JoinRoomLoadingState());
     DioHelper.postData(
@@ -426,9 +404,7 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
   Requesteduserss? requesteduserss;
-
   void RequestedUsers(String idRooms) {
     emit(RequestedUsersLoadingState());
     DioHelper.getData(url: JoinRoom1 + idRooms + requestedUsers, token: token)
@@ -460,7 +436,6 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
   void AcceptUsers({required String Iduser, required String IdofRooms,}) {
     emit(AcceptUserLoadingState());
 
@@ -493,7 +468,6 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
   Future<void> RejectUser({required String Iduser, required String IdofRooms,}) async {
     emit(RejectUserLoadingState());
 
@@ -526,9 +500,8 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
-//List<dynamic> geetRoom=[];
-  //GetRooms?getRooms;
+  ///List<dynamic> geetRoom=[];
+  ///GetRooms?getRooms;
   void GetRoom() {
     DioHelper.getData(url: GetRoomss, token: token).then((value) {
       print(value.data);
@@ -597,9 +570,7 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
   dynamic errors = [];
-
   void CreateQuestion({required String title, required String description, required id,}) {
     emit(AddQuestionLoadingState());
 
@@ -624,9 +595,7 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
   QuestionModel?questionModel;
-
   void GetQuestions({required String idRoom}) {
     emit(GetQuestionLoadingState());
 
@@ -673,9 +642,7 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
   AnswerModel?answerModel;
-
   void Getanswer({required String idquestion}) {
     emit(GetanswerLoadingState());
     DioHelper.getData(url: AddQuestion + idquestion, token: token).then((
@@ -696,14 +663,11 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
   String fileType = 'All';
   var fileTypeList = ['All', 'Image', 'Video', 'Audio', 'MultipleFile,Pdf'];
   FilePickerResult? result;
-
   late PlatformFile file;
-
-  void pickFiles(String? filetype) async {
+  void pickFiles({String? filetype,required String IdRoomfile}) async {
     switch (filetype) {
       case 'All':
         result = await FilePicker.platform.pickFiles();
@@ -714,17 +678,14 @@ class learnUpCuibit extends Cubit<learnUpStates> {
     }
 
 
-    Upload();
+    Upload(IdRoomfile);
   }
-
-
-  Future<void> Upload() async {
+  Future<void> Upload(IdRoomfile) async {
     String fileName = file.path!.split('/').last;
     String? mimeType = mime(fileName);
 
     emit(UploadFilesLoadingState());
-    final uri = Uri.parse(
-        "http://abdonabil-001-site1.itempurl.com/api/Rooms/10/Materials");
+    final uri = Uri.parse("http://abdonabil-001-site1.itempurl.com/api/Rooms/$IdRoomfile/Materials");
     var request = http.MultipartRequest('POST', uri);
     final httpImage = await http.MultipartFile.fromPath('Files', file.path!,
         contentType: MediaType.parse(mimeType!), filename: fileName);
@@ -746,7 +707,6 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       emit(UploadFilesErrorState());
     }
   }
-
   Future<void> Deleteanswer({required String idasnwer,}) async {
     emit(DeleteanswerLoadingState());
 
@@ -764,8 +724,6 @@ class learnUpCuibit extends Cubit<learnUpStates> {
       }
     });
   }
-
-
   Future<void> UpdateYourAnswer({required String UpdateAnswer, required String IdAns }) async {
     emit(UpdateanswerLoadingState());
     DioHelper.putdata(data: {
@@ -790,7 +748,7 @@ emit(UpdateanswerSuccessState());
       }
     });
   }
- Future<void>  AddAnswers({required String YourAnwer,  required int?  id,required Idansweer }) async {
+  Future<void>  AddAnswers({required String YourAnwer,  required int?  id,required Idansweer }) async {
     emit(AddQuestionLoadingState());
 
     DioHelper.postData(
@@ -830,23 +788,20 @@ emit(UpdateanswerSuccessState());
       }
     });
   }
-
-  MaterialsModel?materialsModel;
-  dynamic mm=[];
-
-   Future<void> GetMaterial({required String idRoom}) async {
+  Map materialsModel={};
+  Future<void> GetMaterial({required String idRoom}) async {
     emit(GetMaterialsLoadingState());
 
-    DioHelper.getData(url:'/api/Rooms/7/Materials', token: token)
+    DioHelper.getData(url:JoinRoom1+idRoom+getMaterials, token: token)
         .then((value) {
-      // materialsModel = MaterialsModel.fromJson(value.data);
-
-      mm=value.data;
-      print(value.data);
 
 
+      materialsModel=value.data;
+      print(materialsModel["result"].length);
 
-      emit(GetMaterialsSuccessState ());
+
+
+          emit(GetMaterialsSuccessState ());
     }).catchError((error) {
       if (error) {
         print(token);
@@ -880,6 +835,371 @@ emit(UpdateanswerSuccessState());
         print(error.message);
 
         emit(GetMaterialsErrorState());
+      }
+    });
+  }
+  Map CreatedRoomsReports={};Future<void> GetUserCreatedRoomsReports( ) async {
+    emit(GetCreatedRoomsReportsLoadingState());
+
+    DioHelper.getData(url:GetUserCreatedRoomsReport, token: token)
+        .then((value) {
+
+
+      CreatedRoomsReports=value.data;
+      print(CreatedRoomsReports["result"]["roomActivities"]);
+
+
+
+          emit(GetCreatedRoomsReportsSuccessState ());
+    }).catchError((error) {
+      if (error) {
+        print(token);
+        print('Dio error!');
+
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        // Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+        emit(GetCreatedRoomsReportsErrorState());
+      } else {
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        // Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+
+        emit(GetCreatedRoomsReportsErrorState());
+      }
+    });
+  }
+  Map GetUserRoomsReportMap={};
+  UserRoomsReports?userRoomsReport;
+  Future<void> GetUserRoomsReport( ) async {
+    emit(GetCreatedRoomsReportsLoadingState());
+
+    DioHelper.getData(url:GetUserRoomsReports, token: token)
+        .then((value) {
+
+      userRoomsReport=UserRoomsReports.fromJson(value.data);
+      GetUserRoomsReportMap=value.data;
+      print(userRoomsReport!.result!.numberOfJoinedRooms);
+
+
+
+          emit(GetCreatedRoomsReportsSuccessState ());
+    }).catchError((error) {
+      if (error) {
+        print(token);
+        print('Dio error!');
+
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        // Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+        emit(GetCreatedRoomsReportsErrorState());
+      } else {
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        // Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+
+        emit(GetCreatedRoomsReportsErrorState());
+      }
+    });
+  }
+  late Map GetRoomReportsModel={};
+  Future<void> GetRoomReports({required String idroom} ) async {
+    emit(GetRoomReportLoadingState());
+    DioHelper.getData(url:GetRoomReport+idroom, token: token)
+        .then((value) {
+      GetRoomReportsModel=value.data;
+          emit(GetRoomReportSuccessState ());
+    }).catchError((error) {
+      if (error) {
+        print(token);
+        print('Dio error!');
+
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        // Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+        emit(GetRoomReportErrorState());
+      } else {
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        // Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+
+        emit(GetRoomReportErrorState());
+      }
+    });
+  }
+  SearchModel? searchModel;
+  Future<void> SearchR( {required String Word, bool?SkipRooms , bool?SkipInterests} ) async {
+    bool?SkipRooms;
+    bool?SkipInterests;
+    emit(SearchLoadingState());
+    DioHelper.getData(url:Search+Word   , token: token)
+        .then((value) {
+          searchModel=SearchModel.fromJson(value.data);
+          emit(SearchSuccessState ());
+    }).catchError((error) {
+       if (error) {
+        print('Dio error!');
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        // Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+        emit(GetRoomReportErrorState());
+      } else {
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+           /// Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+        emit(SearchErrorState());
+      }
+    });
+  }
+  dynamic listinvite={};
+  Future<void>  Invites({required String RoomId,   required String UserId }) async {
+          emit(InvitesLoadingState());
+
+    DioHelper.postData(
+      url: JoinRoom1 + RoomId + InvitesPeople+UserId,
+      token: token,
+      data: {
+      },
+    ).then((value) {
+          listinvite=value.data;
+          emit( InvitesSuccessState());
+    }).catchError((error) {
+           errors = error.response?.data;
+           print(errors["messageCode"]);
+           emit( InvitesErrorState(errors["messageCode"]));
+           if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
+  dynamic Myinvite={};
+  Future<void> GetInvites(  ) async {
+    emit(GetInvitesLoadingState());
+
+    DioHelper.getData(url :GetInvitesPeople , token: token)
+        .then((value) {
+             Myinvite=value.data;
+             emit(GetInvitesSuccessState ());
+    }).catchError((error) {
+      if (error) {
+
+             print('Dio error!');
+
+               if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+               if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+               if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        /// Error due to setting up or sending the request
+             print('Error sending request!');
+               print(error.message);
+               emit(GetInvitesErrorState());
+      } else {
+            if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+            if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+            if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+       /// Error due to setting up or sending the request
+            print('Error sending request!');
+            print(error.message);
+            emit(GetInvitesErrorState());
+      }
+    });
+  }
+
+  Future<void> Requestedinvite(String idRooms) async {
+    emit(RequestedUsersLoadingState());
+    DioHelper.getData(url: JoinRoom1 + idRooms + requestedUsers, token: token)
+        .then((value) {
+      requesteduserss = Requesteduserss.fromJson(value.data);
+      emit(RequestedUsersSuccessState());
+    }).catchError((error) {
+      if (error) {
+        print(token);
+        print('Dio error!');
+
+
+        print(token);
+        emit(RequestedUsersErrorState());
+      } else {
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.reasonPhrase}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        // Error due to setting up or sending the request
+
+
+        emit(RequestedUsersErrorState());
+      }
+    });
+  }
+
+  Future<void>  AcceptInvites({required String InviteId, }) async {
+    emit(AcceptInvitesLoadingState());
+
+    DioHelper.putdata(
+      url:InvitesPeople + InviteId + AcceptInvite,
+      token: token,
+      data: {
+      },
+    ).then((value) {
+      if (kDebugMode) {
+        print("Done");
+      }
+      emit(AcceptInvitesSuccessState());
+    }).catchError((error) {
+      if (kDebugMode) {
+        print('Dio error!');
+      }
+      if (kDebugMode) {
+        print('STATUS: ${error.response?.statusCode}');
+      }
+      if (kDebugMode) {
+        print('DATA: ${error.response?.data}');
+      }
+      if (kDebugMode) {
+        print('HEADERS: ${error.response?.headers}');
+      }
+      emit(AcceptInvitesErrorState(errors["messageCode"]));
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
+
+  Future<void>  RejectInvites({required String InviteId, }) async {
+    emit(RejectInvitesLoadingState());
+
+    DioHelper.putdata(
+      url:InvitesPeople + InviteId + RejectInvite,
+      token: token,
+      data: {
+      },
+    ).then((value) {
+      if (kDebugMode) {
+        print("Done");
+        print(value.data);
+      }
+      emit(RejectInvitesSuccessState());
+    }).catchError((error) {
+      if (kDebugMode) {
+        print('Dio error!');
+      }
+      if (kDebugMode) {
+        print('STATUS: ${error.response?.statusCode}');
+      }
+      if (kDebugMode) {
+        print('DATA: ${error.response?.data}');
+      }
+      if (kDebugMode) {
+        print('HEADERS: ${error.response?.headers}');
+      }
+      emit(RejectInvitesErrorState(errors["messageCode"]));
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
+
+  Future<void>   DeleteInterests({required String InterestId,}) async {
+    emit(DeleteInterestLoadingState());
+    DioHelper.Deletedata(
+      url: DeleteInterest + InterestId, token: token,
+    ).then((value) {
+      if (kDebugMode) {
+        print("Done");
+      }
+      emit(DeleteInterestSuccessState());
+    }).catchError((error) {
+      emit(DeleteInterestErrorState());
+      if (kDebugMode) {
+        print(error.toString());
       }
     });
   }

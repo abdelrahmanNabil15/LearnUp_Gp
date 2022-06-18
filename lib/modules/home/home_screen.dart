@@ -14,6 +14,8 @@ import '../../cubit/cubit.dart';
 import '../../cubit/state.dart';
 import '../Rooms/CreateRoom.dart';
 import '../Rooms/MyRoom.dart';
+import '../Rooms/SearchScreen.dart';
+import '../inviteion/inviteUesr.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -51,9 +53,20 @@ class _homeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) =>
-          learnUpCuibit()..GetRoomByInterest("my-first-interest")..GetAllInterests()..GetMaterial(idRoom: "10")   ,
+            learnUpCuibit()..GetRoomByInterest("my-first-interest")..GetAllInterests()..GetInvites()       ,
       child: BlocConsumer<learnUpCuibit, learnUpStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+
+          if(state is JoinRoomSuccessState){
+            showToast(message: 'The request has been sent successfully', state: ToastStates.SUCCESS);
+            learnUpCuibit.get(context).GetRoomByInterest("my-first-interest");
+
+          }else if(state is JoinRoomErrorState){
+            showToast(message: 'The request was not sent, please try again later', state: ToastStates.ERROR);
+            learnUpCuibit.get(context).GetRoomByInterest("my-first-interest")  ;
+          }
+
+        },
         builder: (context, Object? state) {
           var cubit = learnUpCuibit.get(context);
           return  DefaultTabController(
@@ -62,7 +75,7 @@ class _homeScreenState extends State<HomeScreen> {
               appBar: AppBar(
                 title: const Text(" LEARN UP "),
                 actions: [
-                  IconButton(onPressed: () {}, icon: const Icon(Iconsax.search_status))
+                  IconButton(onPressed: () {navigateTo(context,SearchScreen());}, icon: const Icon(Iconsax.search_status))
                 ],
 
                 bottom:  TabBar( indicatorColor: mainColor,

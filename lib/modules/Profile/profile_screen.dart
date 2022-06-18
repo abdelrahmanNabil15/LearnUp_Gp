@@ -13,29 +13,31 @@ import '../../commponet/ProfileMenu.dart';
 import '../../commponet/commpnet.dart';
 import '../../cubit/cubit.dart';
 import '../../cubit/state.dart';
+import '../Report/ReportRoomJoined.dart';
 import '../Rooms/MyRoom.dart';
+import 'Interests.dart';
 import 'cubit/cubit.dart';
 import 'joinedRooms.dart';
 
 class profile_screen extends StatelessWidget {
   profile_screen({Key? key}) : super(key: key);
   var interestController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (BuildContext context) => learnUpCuibit()
-          ..GetUserdata()
-          ..GetInterest()  ,
-        child: BlocConsumer<learnUpCuibit, learnUpStates>(
-            listener: (context, state) {},
-            builder: (context, state) => ConditionalBuilder(
-                  condition: true,
-                  builder: (context) {
-                    var cubit = learnUpCuibit.get(context);
+      return BlocProvider(
+          create: (BuildContext context) => learnUpCuibit()
+            ..GetUserdata()
+            ..GetInterest() ..GetUserRoomsReport( ) ,
+          child: BlocConsumer<learnUpCuibit, learnUpStates>(
+              listener: (context, state) {},
+              builder: (context, state) => ConditionalBuilder(
+                    condition: true,
+                    builder: (context) {
+                      var cubit = learnUpCuibit.get(context);
 
-                    return Scaffold(    appBar: AppBar(
+                      return Scaffold(    appBar: AppBar(
                     title: const Text(" LEARN UP "),
                     actions: [
                     IconButton(onPressed: () {}, icon: const Icon(Iconsax.search_status))
@@ -68,12 +70,7 @@ class profile_screen extends StatelessWidget {
                             profileMeun(
                               text: "Joined Rooms",
                               icon: "assets/myspace.svg",
-                              press: () => {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const JoinedRooms()),
-                                )
+                              press: () => {navigateTo(context, ReportRoomsJoined())
                               },
                             ),
                             profileMeun(
@@ -82,16 +79,7 @@ class profile_screen extends StatelessWidget {
                               color: Colors.black,
                               press: () => {
                                 {
-                                  showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      context: context,
-                                      backgroundColor: Colors.transparent,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0.r),
-                                      ),
-                                      builder: (context) => AddInterest(
-                                          _formKey, interestController, cubit))
+                                  navigateTo(context, InterestScreen())
                                 },
                               },
                             ),

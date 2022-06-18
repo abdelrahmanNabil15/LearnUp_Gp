@@ -12,14 +12,17 @@ class DefaultButton extends StatelessWidget {
   String text;
   bool isUpper;
   Color color;
+  Color? Textcolor=Colors.white;
 
   DefaultButton({
     Key? key,
     required this.function,
+     this.Textcolor,
     this.width = double.infinity,
     required this.text,
     this.isUpper = true,
     this.color = mainColor,
+
   }) : super(key: key);
 
   @override
@@ -34,8 +37,8 @@ class DefaultButton extends StatelessWidget {
         },
         child: Text(
           isUpper ? text.toUpperCase() : text,
-          style: const TextStyle(
-            color: Colors.white,
+          style:   TextStyle(
+            color: Textcolor,
           ),
         ),
       ),

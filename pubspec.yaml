@@ -57,6 +57,7 @@ dependencies:
   file_picker: ^4.6.1
   change_app_package_name:
   mime_type: ^1.0.0
+  pie_chart: ^5.3.1
 
   dependencies:
   conditional_builder_null_safety: ^0.0.6
@@ -64,7 +65,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -96,6 +96,11 @@ flutter:
       - assets/add-favorite.svg
       - assets/splash.png
       - assets/Warning.png
+      - assets/Empty .png
+      - assets/nousers.png
+      - assets/nofile.png
+      - assets/search.jpg
+
 
 
 

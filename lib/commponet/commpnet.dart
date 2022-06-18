@@ -70,79 +70,7 @@ Widget Cateogery(cubit) => SizedBox(
               : cubit.getAllinterest!.result!.length),
     );
 
-Widget ListOfinstructor() => ListView.separated(
-    shrinkWrap: true,
-    itemBuilder: (context, index) {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-        child: Container(
-          decoration: const BoxDecoration(color: Colors.white),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                  color: Colors.grey.shade100,
-                ),
-                height: 60.h,
-                width: 60.w,
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-                  child: Image.asset('assets/Profile Image.png'),
-                ),
-              ),
-              SizedBox(
-                width: 20.w,
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        customText(
-                          maxline: 1,
-                          fontWeight: FontWeight.bold,
-                          text: 'abdo nabil ',
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Chip(
-                            label: customText(
-                              maxline: 1,
-                              alignment: Alignment.center,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.sp,
-                              text: ' Follow',
-                            ),
-                            backgroundColor: mainColor,
-                          ),
-                        )
-                      ],
-                    ),
-                    customText(
-                      maxline: 1,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 14.sp,
-                      text:
-                          'In this case, you should try Wrap widget in flutterrrrrrrrrrrrre',
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    },
-    physics: const BouncingScrollPhysics(),
-    separatorBuilder: (context, index) => SizedBox(
-          width: 20.w,
-        ),
-    scrollDirection: Axis.vertical,
-    itemCount: 3);
+
 
 Widget Rooms() => ListView.separated(
       shrinkWrap: true,
@@ -256,117 +184,71 @@ Widget Rooms() => ListView.separated(
     );
 
 Widget AddInterest(_formKey, interestController, cubit) =>
-    DraggableScrollableSheet(
-        initialChildSize: 0.7,
-        minChildSize: 0.5,
-        maxChildSize: 1.0,
-        builder: (_, controller) => Container(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20))),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: ListView(
-                  controller: controller,
-                  children: [
-                    Form(
-                      key: _formKey,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-//add interest  for users
-                          Expanded(
-                            flex: 5,
-                            child: TextFormField(
-                              style:
-                                  TextStyle(height: 0.4.h, color: Colors.black),
-                              validator: (text) {
-                                if (text == null || text.isEmpty) {
-                                  return 'enter your interest please';
+    SafeArea(
+      child: Scaffold(
+        appBar: AppBar(title: Text("Choose your intersts"),
+        centerTitle: true,),
+        body: Container(
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius:
+              BorderRadius.vertical(top: Radius.circular(20))),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: ListView(
+
+              children: [
+                Form(
+                  key: _formKey,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                   ///add interest  for users
+
+                    ///icons intersts
+                      Expanded(
+                          flex: 1,
+                          child: IconButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  cubit.Addintrest(
+                                      interestdata:
+                                      interestController.text);
+                                  interestController.clear();
+                                  cubit.GetInterest();
                                 }
-                                return null;
                               },
-                              decoration: InputDecoration(
-                                fillColor: Colors.grey.shade200,
-                                filled: true,
-                                errorStyle: const TextStyle(
-                                  color: Colors.redAccent,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  borderSide: const BorderSide(
-                                    color: Colors.cyan,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.withOpacity(0.5),
-                                  ),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  borderSide: const BorderSide(
-                                    color: Colors.redAccent,
-                                    width: 2,
-                                  ),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  borderSide: const BorderSide(
-                                    color: Colors.redAccent,
-                                    width: 2,
-                                  ),
-                                ),
-                                hintText: "add interest ",
-                              ),
-                              controller: interestController,
-                            ),
-                          ),
-                          //icons intersts
-                          Expanded(
-                              flex: 1,
-                              child: IconButton(
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      cubit.Addintrest(
-                                          interestdata:
-                                              interestController.text);
-                                      interestController.clear();
-                                      cubit.GetInterest();
-                                    }
-                                  },
-                                  icon: const Icon(
-                                    Icons.add_circle_outline,
-                                    color: Colors.cyan,
-                                  ))),
-                        ],
-                      ),
-                    ),
-                    ConditionalBuilder(
-                      condition: cubit.getinterest != null,
-                      builder: (context) {
-                        return Wrap(
-                          spacing: 6.0,
-                          runSpacing: 6.0,
-                          children: List<Widget>.generate(
-                              cubit.getinterest!.result!.length, (int index) {
-                            return Chip(
-                              label: Text(cubit.getinterest!.result![index].id),
-                            );
-                          }),
-                        );
-                      },
-                      fallback: (BuildContext context) => Container(
-                          color: Colors.white,
-                          child: Center(child: spinkitCircle)),
-                    )
-                  ],
+                              icon: const Icon(
+                                Icons.add_circle_outline,
+                                color: Colors.cyan,
+                              ))),
+                    ],
+                  ),
                 ),
-              ),
-            ));
+                ConditionalBuilder(
+                  condition: cubit.getinterest != null,
+                  builder: (context) {
+                    return Wrap(
+                      spacing: 6.0,
+                      runSpacing: 6.0,
+                      children: List<Widget>.generate(
+                          cubit.getinterest!.result!.length, (int index) {
+                        return Chip(
+                          label: Text(cubit.getinterest!.result![index].id),
+                        );
+                      }),
+                    );
+                  },
+                  fallback: (BuildContext context) => Container(
+                      color: Colors.white,
+                      child: Center(child: spinkitCircle)),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
 
 final spinkit = SpinKitThreeBounce(
   color: mainColor,
@@ -421,10 +303,8 @@ Widget ROOMS(cubit) => GestureDetector(
                         {
                           if (cubit.roombyInterest!.result![index]
                                   .userRoomStatus!.id ==
-                              "ACCEPTED") {
-                            showtoast("Owner accepted you ", Colors.green);
-
-
+                              "ACCEPTED"||cubit.roombyInterest!.result![index]
+                              .userRoomStatus!.id == "JOINED") {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => RoomsScreen(
@@ -465,6 +345,7 @@ Widget ROOMS(cubit) => GestureDetector(
                           children: [
                             Text(
                               cubit.roombyInterest!.result![index]
+                                  .userRoomStatus!.nameEnglish=="not joined"?"Join":cubit.roombyInterest!.result![index]
                                   .userRoomStatus!.nameEnglish,
                               style: TextStyle(
                                   fontSize: 12.sp,
@@ -495,7 +376,7 @@ Widget ROOMS(cubit) => GestureDetector(
                     fontWeight: FontWeight.normal,
                     text:  cubit
                         .roombyInterest!.result![index].numberOfJoinedUsers.toString()=="0"?"no listening": cubit
-                        .roombyInterest!.result![index].numberOfJoinedUsers.toString(),
+                        .roombyInterest!.result![index].numberOfJoinedUsers.toString()+"  listening",
                   ),
                 ),
                 Expanded(
@@ -566,3 +447,51 @@ Widget ROOMS(cubit) => GestureDetector(
       ),
       scrollDirection: Axis.vertical,
     ));
+void showToast({
+  required String message,
+  required ToastStates state,
+}) =>
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 5,
+      backgroundColor: chooseToastColor(state),
+      textColor: Colors.white,
+      fontSize: 14.0,
+    );
+
+// enum
+enum ToastStates { SUCCESS, ERROR, WARNING }
+
+Color chooseToastColor(ToastStates state) {
+  Color color;
+
+  switch (state) {
+    case ToastStates.SUCCESS:
+      color = Colors.green;
+      break;
+    case ToastStates.ERROR:
+      color = Colors.red;
+      break;
+    case ToastStates.WARNING:
+      color = Colors.amber;
+      break;
+  }
+
+  return color;
+}
+void navigateTo(context, widget) => Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => widget,
+  ),
+);
+
+void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
+  context,
+  MaterialPageRoute(
+    builder: (context) => widget,
+  ),
+      (route) => false,
+);

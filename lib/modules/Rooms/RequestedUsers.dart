@@ -21,20 +21,45 @@ class RequestedUsers extends StatefulWidget {
 class _RequestedUsersState extends State<RequestedUsers> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (BuildContext context) =>
-            learnUpCuibit()..RequestedUsers(widget.IDRoom.toString()),
-        child: BlocConsumer<learnUpCuibit, learnUpStates>(
-            listener: (context, state) {},
-            builder: (context, Object? state) {
-              var cubit = learnUpCuibit.get(context);
+      return BlocProvider(
+          create: (BuildContext context) =>
+              learnUpCuibit()..RequestedUsers(widget.IDRoom.toString()),
+          child: BlocConsumer<learnUpCuibit, learnUpStates>(
+              listener: (context, state) {
 
-              return ConditionalBuilder(
-                  fallback: (BuildContext context) => Container(
-                      color: Colors.white, child: Center(child: spinkitCircle)),
-                  condition: cubit.requesteduserss != null,
-                  builder: (context) {
-                    return Scaffold(
+                if(state is AcceptUserSuccessState){
+                  showToast(message: 'User accepted', state: ToastStates.SUCCESS);
+                  learnUpCuibit.get(context).RequestedUsers(widget.IDRoom.toString());
+                  learnUpCuibit.get(context)..GetRoombyId( widget.IDRoom);
+
+                }
+                else if(state is AcceptUserErrorState){
+                  showToast(message: 'The user was not accepted, try again later', state: ToastStates.ERROR);
+                  learnUpCuibit.get(context).RequestedUsers(widget.IDRoom.toString())  ;
+                  learnUpCuibit.get(context)..GetRoombyId( widget.IDRoom);
+                }
+                if(state is RejectUserSuccessState){
+                  showToast(message: 'User rejected', state: ToastStates.SUCCESS);
+                  learnUpCuibit.get(context).RequestedUsers(widget.IDRoom.toString());
+                  learnUpCuibit.get(context)..GetRoombyId( widget.IDRoom);
+
+                }
+                else if(state is RejectUserErrorState){
+                  showToast(message: 'The user was not rejected, try again later', state: ToastStates.ERROR);
+                  learnUpCuibit.get(context).RequestedUsers(widget.IDRoom.toString())  ;
+                  learnUpCuibit.get(context)..GetRoombyId( widget.IDRoom);
+                }
+
+              },
+              builder: (context, Object? state) {
+                var cubit = learnUpCuibit.get(context);
+
+                return ConditionalBuilder(
+                    fallback: (BuildContext context) => Container(
+                        color: Colors.white, child: Center(child: spinkitCircle)),
+                    condition: cubit.requesteduserss != null,
+                    builder: (context) {
+                      return Scaffold(
                         appBar: AppBar(),
                         body: SafeArea(
                           child: ListView.builder(
@@ -123,12 +148,12 @@ class _RequestedUsersState extends State<RequestedUsers> {
                                   subtitle: Text(cubit.requesteduserss!
                                       .result![index].statusId),
                                   trailing: InkWell(onTap:() {
-                                    // cubit.AcceptUsers(
-                                    //     Iduser: cubit.requesteduserss!
-                                    //         .result![index].id
-                                    //         .toString(),
-                                    //     IdofRooms:
-                                    //     widget.IDRoom.toString());
+                                    cubit.AcceptUsers(
+                                        Iduser: cubit.requesteduserss!
+                                            .result![index].id
+                                            .toString(),
+                                        IdofRooms:
+                                        widget.IDRoom.toString());
                                     setState(() {
                                       cubit.requesteduserss!.result!
                                           .removeAt(index);

@@ -28,7 +28,17 @@ class _RoomByCateoryState extends State<RoomByCateory> {
         create: (BuildContext context) =>
         learnUpCuibit()..GetRoomByInterest(widget.InterestCateogry) ,
         child: BlocConsumer<learnUpCuibit, learnUpStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is JoinRoomSuccessState){
+            showToast(message: 'The request has been sent successfully', state: ToastStates.SUCCESS);
+            learnUpCuibit.get(context).GetRoomByInterest(widget.InterestCateogry);
+
+          }else if(state is JoinRoomErrorState){
+            showToast(message: 'The request was not sent, please try again later', state: ToastStates.ERROR);
+            learnUpCuibit.get(context).GetRoomByInterest(widget.InterestCateogry)  ;
+          }
+
+        },
     builder: (context, Object? state) {
       var cubit = learnUpCuibit.get(context);
       return ConditionalBuilder(

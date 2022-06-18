@@ -19,6 +19,9 @@ import '../../cubit/cubit.dart';
 import '../../cubit/state.dart';
 import '../../network/CacheHelper.dart';
 import '../../videoCall/call.dart';
+import '../Report/ReportRoomById.dart';
+import '../Report/ReportRoomJoined.dart';
+import '../inviteion/inviteUesr.dart';
 import 'QuestionScreen.dart';
 import 'RequestedUsers.dart';
 
@@ -30,16 +33,27 @@ class RoomsScreen extends StatelessWidget {
   final id;
   var nameController = TextEditingController();
   dynamic idowner = CacheHelper.getData(key: 'id');
-
+  var appBarHeight = AppBar().preferredSize.height;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (BuildContext context) => learnUpCuibit()
           ..GetRoombyId(id)
           ..RequestedUsers(id.toString())
-          ..GetQuestions(idRoom: id.toString())..Getanswer(idquestion:2.toString()),
+          ..GetQuestions(idRoom: id.toString())..GetMaterial(idRoom: id.toString())..GetRoomReports(idroom: id.toString())  ,
         child: BlocConsumer<learnUpCuibit, learnUpStates>(
-            listener: (context, state) {},
+            listener: (context, state) {
+
+              if(state is UploadFilesSuccessState){
+                showToast(message: 'The file has been uploaded successfully', state: ToastStates.SUCCESS);
+                learnUpCuibit.get(context).GetMaterial(idRoom: id.toString());
+
+              }else if(state is UploadFilesErrorState){
+                showToast(message: 'The file was not uploaded, please try again later', state: ToastStates.ERROR);
+                learnUpCuibit.get(context).GetMaterial(idRoom: id.toString());
+              }
+
+              },
             builder: (context, Object? state) {
               var cubit = learnUpCuibit.get(context);
 
@@ -53,23 +67,63 @@ class RoomsScreen extends StatelessWidget {
                         ConditionalBuilder(
                           condition:cubit.requesteduserss!=null&&owner == idowner,
                           builder: (context) {
-                            return IconBadge(
-                              icon: Icon(Iconsax.notification_status),
-                              itemCount:cubit.roombyId!.result!.numberOfRequestedUsers,
-                              badgeColor: Colors.red,
-                              itemColor: Colors.white,
-                              hideZero: true,
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) => RequestedUsers(
-                                            IDRoom: id,
-                                          )),
-                                );
-                              },
+                            return Row(
+
+                              children: [
+                                IconBadge(
+                                  icon: const Icon(Iconsax.notification_status),
+                                  itemCount:cubit.roombyId!.result!.numberOfRequestedUsers,
+                                  badgeColor: Colors.red,
+                                  itemColor: Colors.white,
+                                  hideZero: true,
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) => RequestedUsers(
+                                                IDRoom: id,
+                                              )),
+                                    );
+                                  },
+                                ),
+                                PopupMenuButton(
+
+                                    itemBuilder:(context) => [
+
+                                      PopupMenuItem(
+                                        child: const Text("ReportRooms"),
+                                        onTap: (){
+                                        },
+                                        value: 1,
+                                      ),
+                                      const PopupMenuItem(
+                                        child: Text("Invite friend"),
+                                        value: 2,
+                                      )
+                                    ],
+                            offset: Offset(0.0, appBarHeight),
+                            shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(8.0),
+                            bottomRight: Radius.circular(8.0),
+                            topLeft: Radius.circular(8.0),
+                            topRight: Radius.circular(8.0),
+                            ),),
+                                  onSelected: (value){
+                                      if(value==1){
+                                        navigateTo(context, ReportRoomById(IdReport: id.toString(), ));
+                                      }
+                                      if(value==2){
+
+                                        navigateTo(context, IniviteScreen(RoomIds: id.toString(), ));
+                                      }
+
+
+                                  },
+                                )
+                              ],
                             );
                           },
-                          fallback: (context) => Text(""),
+                          fallback: (context) => const Text(""),
                         ),
                       ],
                       title: customText(
@@ -101,6 +155,9 @@ class RoomsScreen extends StatelessWidget {
                                   ? TextButton(
                                       onPressed: () async {
                                         {
+                                          CacheHelper.putData(key: 'meeting', value: true);
+                                          dynamic meeting = CacheHelper.getData(key: 'meeting');
+                                          print(meeting);
                                           await _handleCameraAndMic(
                                               Permission.camera);
                                           await _handleCameraAndMic(
@@ -110,11 +167,16 @@ class RoomsScreen extends StatelessWidget {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
+
                                                   CallPage(
                                                 channelName: cubit.roombyId!.result!.name,
                                                 role: ClientRole.Broadcaster,
                                                 UserName: cubit.roombyId!.result!.ownerName,
                                               ),
+
+
+
+
                                             ),
                                           );
                                         }
@@ -160,7 +222,8 @@ class RoomsScreen extends StatelessWidget {
                                           //   MaterialPageRoute(builder: (context) =>   RoomsScreen(id: cubit.roombyInterest!
                                           //       .result!.)),
                                           // );
-
+                                          dynamic meeting = CacheHelper.getData(key: 'meeting');
+                                          print(meeting);
                                         }
                                         ;
                                       },
@@ -251,7 +314,7 @@ class RoomsScreen extends StatelessWidget {
                           ),
 
                           TabBarPages(id: id,
-                            cubit: cubit,
+                            cubit: cubit,UserId: cubit.roombyId!.result!.ownerId,
 
                           ),
 

@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:LearnUP/i_cons_icons.dart';
@@ -27,26 +25,26 @@ import '../../network/DioHelper.dart';
 import '../../network/end_pionts.dart';
 import 'QuestionScreen.dart';
 import 'package:mime_type/mime_type.dart';
+
 class TabBarPages extends StatefulWidget {
   @override
-  final cubit, id;
+  final cubit, id,UserId;
 
-  const TabBarPages({Key? key, this.cubit, this.id}) : super(key: key);
+  const TabBarPages({Key? key, this.cubit, this.id, this.UserId}) : super(key: key);
+
 
   tabBarPagesState createState() => tabBarPagesState();
 }
-final _formKey = GlobalKey<FormState>();
+dynamic Idowner = CacheHelper.getData(key: 'id');
+
+final _answerkey = GlobalKey<FormState>();
+final _QuestionKey = GlobalKey<FormState>();
 
 class tabBarPagesState extends State<TabBarPages> {
   var QuestionsController = TextEditingController();
   var AnswerController = TextEditingController();
 
-
-
-
-
   bool submit = false;
-
 
   void initState() {
     // TODO: implement initState
@@ -57,12 +55,14 @@ class tabBarPagesState extends State<TabBarPages> {
       });
     });
   }
-    @override
-    void dispose() {
-      // Clean up the controller when the widget is disposed.
-      QuestionsController.dispose();
-      super.dispose();
-    }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    QuestionsController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
@@ -103,7 +103,9 @@ class tabBarPagesState extends State<TabBarPages> {
                     child: Row(
                       children: [
                         Icon(Iconsax.user),
-                        SizedBox(width: 5.w,),
+                        SizedBox(
+                          width: 5.w,
+                        ),
                         Text("Joined users"),
                       ],
                     ),
@@ -121,18 +123,16 @@ class tabBarPagesState extends State<TabBarPages> {
                     color: Colors.white,
                     child: Scaffold(
                       body: ListView(
-
                         physics: BouncingScrollPhysics(),
                         children: [
-
-
                           ConditionalBuilder(
                               condition: widget.cubit.questionModel != null,
                               builder: (context) {
                                 return ListView.separated(
                                     itemCount: widget
                                         .cubit.questionModel!.Questions!.length,
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     separatorBuilder: (context, index) =>
                                         const Divider(),
@@ -154,103 +154,92 @@ class tabBarPagesState extends State<TabBarPages> {
                                                     .userName!,
                                               ),
                                               IconButton(
-                                                  onPressed: () async{
-
+                                                  onPressed: () async {
                                                     showModalBottomSheet(
-                                                        isScrollControlled: true,
+                                                        isScrollControlled:
+                                                            true,
                                                         context: context,
-                                                        backgroundColor: Colors.transparent,
-                                                        shape: RoundedRectangleBorder(
+                                                        backgroundColor:
+                                                            Colors.transparent,
+                                                        shape:
+                                                            RoundedRectangleBorder(
                                                           borderRadius:
-                                                          BorderRadius.circular(30.0.r),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      30.0.r),
                                                         ),
                                                         builder: (context) =>
                                                             DraggableScrollableSheet(
-                                                                initialChildSize: 0.2,
-                                                                minChildSize: 0.0,
-                                                                maxChildSize: 0.3,
-                                                                builder:
-                                                                    (_, controller) => Container(
-                                                                  decoration: const BoxDecoration(
-                                                                      color: Colors.white,
-                                                                      borderRadius:
-                                                                      BorderRadius.vertical(
-                                                                          top: Radius
-                                                                              .circular(
-                                                                              20))),
-                                                                  child: Padding(
-                                                                    padding:
-                                                                    EdgeInsets.only(
-                                                                      top: 20.0.h,
-                                                                    ),
-                                                                    child: Column(
-                                                                        children: [
-                                                                          TextButton(
-                                                                              onPressed:
-                                                                                  () {},
-                                                                              child: Row(
-                                                                                children: [
-                                                                                  Padding(
-                                                                                    padding:
-                                                                                    EdgeInsets.only(left: 20.w),
-                                                                                    child: const Icon(
-                                                                                        Icons
-                                                                                            .edit,
-                                                                                        color:
-                                                                                        Colors.grey),
-                                                                                  ),
-                                                                                  SizedBox(
-                                                                                    width:
-                                                                                    15.w,
-                                                                                  ),
-                                                                                  customText(
-                                                                                    fontWeight:
-                                                                                    FontWeight.bold,
-                                                                                    text:
-                                                                                    "Edit question",
-                                                                                  ),
-                                                                                ],
-                                                                              )),
-                                                                          TextButton(
-                                                                              onPressed:
-                                                                                  () {
-                                                                                Future.delayed(
-                                                                                    const Duration(seconds: 0),
+                                                                initialChildSize:
+                                                                    0.2,
+                                                                minChildSize:
+                                                                    0.0,
+                                                                maxChildSize:
+                                                                    0.3,
+                                                                builder: (_,
+                                                                        controller) =>
+                                                                    Container(
+                                                                      decoration: const BoxDecoration(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          borderRadius:
+                                                                              BorderRadius.vertical(top: Radius.circular(20))),
+                                                                      child:
+                                                                          Padding(
+                                                                        padding:
+                                                                            EdgeInsets.only(
+                                                                          top: 20.0
+                                                                              .h,
+                                                                        ),
+                                                                        child: Column(
+                                                                            children: [
+                                                                              TextButton(
+                                                                                  onPressed: () {},
+                                                                                  child: Row(
+                                                                                    children: [
+                                                                                      Padding(
+                                                                                        padding: EdgeInsets.only(left: 20.w),
+                                                                                        child: const Icon(Icons.edit, color: Colors.grey),
+                                                                                      ),
+                                                                                      SizedBox(
+                                                                                        width: 15.w,
+                                                                                      ),
+                                                                                      customText(
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                        text: "Edit question",
+                                                                                      ),
+                                                                                    ],
+                                                                                  )),
+                                                                              TextButton(
+                                                                                  onPressed: () {
+                                                                                    Future.delayed(
+                                                                                        const Duration(seconds: 0),
                                                                                         () => showDialog(
-                                                                                        context: context,
-                                                                                        builder: (context) => AlertDialogs(
-                                                                                          context,
-                                                                                          "Delete question?",
-                                                                                          "This can't be undone and it will be removed form your room",
-                                                                                        )));
-                                                                              },
-                                                                              child: Row(
-                                                                                children: [
-                                                                                  Padding(
-                                                                                    padding:
-                                                                                    EdgeInsets.only(left: 20.w),
-                                                                                    child: Icon(
-                                                                                        Icons
-                                                                                            .delete_forever,
-                                                                                        color:
-                                                                                        Colors.grey),
-                                                                                  ),
-                                                                                  SizedBox(
-                                                                                    width:
-                                                                                    15.w,
-                                                                                  ),
-                                                                                  customText(
-                                                                                    fontWeight:
-                                                                                    FontWeight.bold,
-                                                                                    text:
-                                                                                    "Delete question",
-                                                                                  ),
-                                                                                ],
-                                                                              ))
-                                                                        ]),
-                                                                  ),
-                                                                )));
-
+                                                                                            context: context,
+                                                                                            builder: (context) => AlertDialogs(
+                                                                                                  context,
+                                                                                                  "Delete question?",
+                                                                                                  "This can't be undone and it will be removed form your room",
+                                                                                                )));
+                                                                                  },
+                                                                                  child: Row(
+                                                                                    children: [
+                                                                                      Padding(
+                                                                                        padding: EdgeInsets.only(left: 20.w),
+                                                                                        child: Icon(Icons.delete_forever, color: Colors.grey),
+                                                                                      ),
+                                                                                      SizedBox(
+                                                                                        width: 15.w,
+                                                                                      ),
+                                                                                      customText(
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                        text: "Delete question",
+                                                                                      ),
+                                                                                    ],
+                                                                                  ))
+                                                                            ]),
+                                                                      ),
+                                                                    )));
                                                   },
                                                   icon: Icon(Iconsax.more))
                                             ],
@@ -308,83 +297,72 @@ class tabBarPagesState extends State<TabBarPages> {
                                                   child: TextButton(
                                                     onPressed: () {
                                                       Future.delayed(
-                                                          const Duration(seconds: 0),
-                                                              () => showDialog(
-
-
-
+                                                          const Duration(
+                                                              seconds: 0),
+                                                          () => showDialog(
                                                               context: context,
-                                                              builder: (context) =>
-                                                                  AlertDialog(
-                                                                    title: customText(
-                                                                        maxline: 1,
-                                                                        fontWeight: FontWeight.bold,
-                                                                        text: "Replying ..",
-                                                                        fontSize: 18.sp,
-                                                                        color: Colors.black),
-                                                                    content:Form(
-                                                                      key: _formKey,
-                                                                      child: TextFormField (controller: AnswerController,
-                                                                        decoration: InputDecoration(
-                                                                            hintText: "add your answer",
-                                                                            hintStyle: TextStyle(
-                                                                                color: Colors.grey
-                                                                            )
-                                                                        ),
-                                                                        validator:  (val) {
-                                                                          if (val == null || val.isEmpty) {
-                                                                            return 'Replying .. ';
-                                                                          }
-                                                                          return null;
-                                                                        },
-
-
-                                                                      ),
-                                                                    ),
-                                                                    actions: <Widget>[
-                                                                      Row(
-                                                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                                        children: [
-                                                                          TextButton(
-                                                                            onPressed: () {
-
-                                                                              Navigator.pop(context, 'Cancel');},
-                                                                            child: customText(
-                                                                                maxline: 1,
-                                                                                fontWeight: FontWeight.bold,
-                                                                                text: 'Cancel',
-                                                                                color: Colors.black),
-                                                                          ),
-                                                                          TextButton(
-                                                                            onPressed:(){
-                                                                              if (_formKey.currentState!.validate()) {
-                                                                                widget.cubit.AddAnswers(
-                                                                                    YourAnwer: AnswerController.text  ,
-                                                                                    id:widget. id,
-                                                                                    Idansweer:widget
-                                                                                        .cubit
-                                                                                        .questionModel!
-                                                                                        .Questions![index]
-                                                                                        .id.toString());
-                                                                               AnswerController.clear();
-
-
-
+                                                              builder:
+                                                                  (context) =>
+                                                                      AlertDialog(
+                                                                        title: customText(
+                                                                            maxline:
+                                                                                1,
+                                                                            fontWeight: FontWeight
+                                                                                .bold,
+                                                                            text:
+                                                                                "Replying ..",
+                                                                            fontSize:
+                                                                                18.sp,
+                                                                            color: Colors.black),
+                                                                        content:
+                                                                            Form(
+                                                                          key:
+                                                                              _answerkey,
+                                                                          child:
+                                                                              TextFormField(
+                                                                            controller:
+                                                                                AnswerController,
+                                                                            decoration:
+                                                                                InputDecoration(hintText: "add your answer", hintStyle: TextStyle(color: Colors.grey)),
+                                                                            validator:
+                                                                                (val) {
+                                                                              if (val == null || val.isEmpty) {
+                                                                                return 'Replying .. ';
                                                                               }
-},
-                                                                            child: customText(
-                                                                                maxline: 1,
-                                                                                fontWeight: FontWeight.bold,
-                                                                                text: 'Confirm',
-                                                                                fontSize: 16.sp,
-                                                                                color: mainColor),
+                                                                              return null;
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                        actions: <
+                                                                            Widget>[
+                                                                          Row(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.end,
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.end,
+                                                                            children: [
+                                                                              TextButton(
+                                                                                onPressed: () {
+                                                                                  Navigator.pop(context, 'Cancel');
+                                                                                  Navigator.pop(context, 'Cancel');
+                                                                                },
+                                                                                child: customText(maxline: 1, fontWeight: FontWeight.bold, text: 'Cancel', color: Colors.black),
+                                                                              ),
+                                                                              TextButton(
+                                                                                onPressed: () {
+                                                                                  if (_answerkey.currentState!.validate()) {
+                                                                                    widget.cubit.AddAnswers(YourAnwer: AnswerController.text, id: widget.id, Idansweer: widget.cubit.questionModel!.Questions![index].id.toString());
+                                                                                    AnswerController.clear();
+                                                                                    Navigator.pop(context, 'Confirm');
+                                                                                    Navigator.pop(context, 'Confirm');
+                                                                                  }
+                                                                                },
+                                                                                child: customText(maxline: 1, fontWeight: FontWeight.bold, text: 'Confirm', fontSize: 16.sp, color: mainColor),
+                                                                              ),
+                                                                            ],
                                                                           ),
                                                                         ],
-                                                                      ),
-                                                                    ],
-                                                                  )));
-
+                                                                      )));
                                                     },
                                                     child: customText(
                                                       color: Colors.black,
@@ -410,135 +388,175 @@ class tabBarPagesState extends State<TabBarPages> {
                               }),
                         ],
                       ),
+                      floatingActionButton: FloatingActionButton(
+                        backgroundColor: mainColor,
+                        child: const Icon(Iconsax.message_add),
+                        onPressed: () {
+                          Future.delayed(
+                              const Duration(seconds: 0),
+                              () => showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                        title: customText(
+                                            maxline: 1,
+                                            fontWeight: FontWeight.bold,
+                                            text: "Ask Qusetion ..",
+                                            fontSize: 18.sp,
+                                            color: Colors.black),
+                                        content: Form(
+                                          key: _QuestionKey,
+                                          child: TextFormField(
+                                            controller: QuestionsController,
+                                            decoration: InputDecoration(
+                                                hintText: "add your Question!",
+                                                hintStyle: TextStyle(
+                                                    color: Colors.grey)),
+                                            validator: (val) {
+                                              if (val == null || val.isEmpty) {
+                                                return "can't be empty.. ";
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(
+                                                      context, 'Cancel');
 
-                   floatingActionButton: FloatingActionButton(
-                     backgroundColor: mainColor,
-                     child: const Icon( Iconsax.message_add),
-
-                     onPressed: (){
-                       Future.delayed(
-                           const Duration(seconds: 0),
-                               () => showDialog(
-
-
-
-                               context: context,
-                               builder: (context) =>
-                                   AlertDialog(
-                                     title: customText(
-                                         maxline: 1,
-                                         fontWeight: FontWeight.bold,
-                                         text: "Ask Qusetion ..",
-                                         fontSize: 18.sp,
-                                         color: Colors.black),
-                                     content:Form(
-                                       key: _formKey,
-                                       child: TextFormField (controller: QuestionsController,
-                                         decoration: InputDecoration(
-                                             hintText: "add your Question!",
-                                             hintStyle: TextStyle(
-                                                 color: Colors.grey
-                                             )
-                                         ),
-                                         validator:  (val) {
-                                           if (val == null || val.isEmpty) {
-                                             return "can't be empty.. ";
-                                           }
-                                           return null;
-                                         },
-
-
-                                       ),
-                                     ),
-                                     actions: <Widget>[
-                                       Row(
-                                         crossAxisAlignment: CrossAxisAlignment.end,
-                                         mainAxisAlignment: MainAxisAlignment.end,
-                                         children: [
-                                           TextButton(
-                                             onPressed: () {
-
-                                               Navigator.pop(context, 'Cancel');
-
-                                               QuestionsController.clear() ;},
-                                             child: customText(
-                                                 maxline: 1,
-                                                 fontWeight: FontWeight.bold,
-                                                 text: 'Cancel',
-                                                 color: Colors.black),
-                                           ),
-                                           TextButton(
-                                             onPressed:(){
-                                               if (_formKey.currentState!.validate()) {
-                                                 submit?
-                                                 widget.cubit.CreateQuestion(
-                                                     description: QuestionsController.text,
-                                                     id: widget.id.toString(),
-                                                     title: QuestionsController.text):null  ;
-                                                 QuestionsController.clear() ;
-
-
-                                               }
-                                             },
-                                             child: customText(
-                                               maxline: 1,
-                                               fontWeight: FontWeight.bold,
-                                               text: 'Confirm',
-                                               fontSize: 16.sp,
-                                               color:  mainColor ),
-                                           ),
-                                         ],
-                                       ),
-                                     ],
-                                   )));
-
-                     },
-                   ),  ),
+                                                  QuestionsController.clear();
+                                                },
+                                                child: customText(
+                                                    maxline: 1,
+                                                    fontWeight: FontWeight.bold,
+                                                    text: 'Cancel',
+                                                    color: Colors.black),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  if (_QuestionKey.currentState!
+                                                      .validate()) {
+                                                    submit
+                                                        ? widget.cubit.CreateQuestion(
+                                                            description:
+                                                                QuestionsController
+                                                                    .text,
+                                                            id: widget.id
+                                                                .toString(),
+                                                            title:
+                                                                QuestionsController
+                                                                    .text)
+                                                        : null;
+                                                    QuestionsController.clear();
+                                                  }
+                                                },
+                                                child: customText(
+                                                    maxline: 1,
+                                                    fontWeight: FontWeight.bold,
+                                                    text: 'Confirm',
+                                                    fontSize: 16.sp,
+                                                    color: mainColor),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )));
+                        },
+                      ),
+                    ),
                   ),
                   Container(
                     color: Colors.red,
                     child: Scaffold(
-                      body: ListView.separated(
-physics: BouncingScrollPhysics(),
-                        itemCount: 6,
-                        separatorBuilder: (BuildContext context, int index) { return Divider(color: Colors.white,); },
-                        itemBuilder: (BuildContext context, int index) { return ListTile(
-                          title:
-
-                          Card(
-                            elevation: 6,
-
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                child:  Icon(Iconsax.document ),
-
-                              ),
-                              title: Text("data"),
-
-                              trailing: Icon(Icons.download),
-                            ),
-                          ),
-                        ); },
-
-                        ),
-                      floatingActionButton: FloatingActionButton(onPressed: (){
-
-
-                        widget.cubit.pickFiles("All");
-                      },child: Icon(Iconsax.document_upload),backgroundColor: mainColor , ) ,
-                    ),
-                    ),
-
-
-                  // second tab bar viiew widget
-                  Container(
-                    color: Colors.pink,
-                    child: Center(
-                      child: Text(
-                        'Car',
+                      body: ConditionalBuilder(
+                        condition: widget.cubit.materialsModel != null,
+                        builder: (context) {
+                          return ListView.separated(
+                            physics: BouncingScrollPhysics(),
+                            itemCount:
+                                widget.cubit.materialsModel["result"].length,
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const Divider(
+                                color: Colors.white,
+                              );
+                            },
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                title: Card(
+                                  elevation: 6,
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      child: Icon(Iconsax.document),
+                                    ),
+                                    title: Text(widget.cubit
+                                            .materialsModel["result"]![index]
+                                        ["fileName"]),
+                                    trailing: Icon(Icons.download),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        fallback: (BuildContext context) => Container(
+                            color: Colors.white,
+                            child: Center(child: spinkitCircle)),
                       ),
+                      floatingActionButton:_getFAB()
+
+
                     ),
                   ),
+
+                  /// second tab bar viiew user join
+                  Container(
+                      color: Colors.white,
+                      child: ConditionalBuilder(
+                        condition: widget.cubit.GetRoomReportsModel["result"] != null,
+                        builder: (context) {
+                          return ListView.separated(
+                            physics: BouncingScrollPhysics(),
+                            itemCount: widget
+                                .cubit
+                                .GetRoomReportsModel["result"]
+                                    ["joinedUserRoomActivities"]
+                                .length,
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return Divider(
+                                color: Colors.white,
+                              );
+                            },
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                title: Card(
+                                  elevation: 6,
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      child: Icon(Iconsax.profile_2user),
+                                    ),
+                                    title: Text(widget.cubit
+                                                .GetRoomReportsModel["result"][
+                                            "joinedUserRoomActivities"][index]
+                                        ["userName"]),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        fallback: (BuildContext context) => Container(
+                            color: Colors.white,
+                            child: Center(child: spinkitCircle)),
+                      )),
                 ],
               ),
             ),
@@ -547,11 +565,12 @@ physics: BouncingScrollPhysics(),
       ),
     );
   }
+
   Widget AlertDialogs(
-      BuildContext context,
-      String title,
-      content,
-      ) {
+    BuildContext context,
+    String title,
+    content,
+  ) {
     return AlertDialog(
       title: customText(
           maxline: 1,
@@ -589,6 +608,20 @@ physics: BouncingScrollPhysics(),
       ],
     );
   }
+
+  Widget _getFAB() {
+    if (widget.UserId==Idowner) {
+      return FloatingActionButton(
+        onPressed: () {
+          widget.cubit.pickFiles(IdRoomfile: widget.id.toString(),filetype:"All" );
+
+          widget.cubit.GetMaterial(idRoom: widget.id.toString());
+        },
+        child: Icon(Iconsax.document_upload),
+        backgroundColor: mainColor,
+      );;
+    } else {
+      return Container();
+    }
+  }
 }
-
-

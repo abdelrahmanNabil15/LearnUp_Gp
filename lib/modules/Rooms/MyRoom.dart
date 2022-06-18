@@ -1,3 +1,5 @@
+
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +27,7 @@ class MyRoom extends StatelessWidget {
         builder: (BuildContext context, Object? state) {
           var cubit = learnUpCuibit.get(context);
           return  Scaffold(
-            appBar: AppBar( ),
+            appBar: AppBar( title: Text("MyRooms"),),
               body: ConditionalBuilder(
             condition: cubit.usermodel!=null,
             builder:( context ) {
@@ -37,176 +39,142 @@ class MyRoom extends StatelessWidget {
                     ListView.separated(
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15.0.w, vertical: 15.h),
-                          child: Container(
-                            width: double.infinity,
+                        return GestureDetector(
+                          onTap: (){
+                            navigateTo(context, RoomsScreen(id: cubit.usermodel!
+                                .result!.createdRooms![index].id));
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15.0.w, vertical: 15.h),
+                            child: Container(
+                              width: double.infinity,
 
-                            constraints:   BoxConstraints(
-                              minHeight: 100.h,
-                              maxHeight:190.h,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.circular(15.r),
-                              color: Colors.grey.shade50,
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 8.0.w,
-                                          vertical: 8.h),
-                                      child: customText(
-                                        maxline: 1,
-                                        fontWeight: FontWeight.bold,
-                                        text:cubit.usermodel!.result!.createdRooms![index].statusId,
-                                      ),
-                                    ),
-
-
-                                    TextButton(onPressed:( ){
-
-                                      {
-
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(builder: (context) =>   RoomsScreen(id: cubit.usermodel!
-                                              .result!.createdRooms![index].id)),
-                                        );
-
-                                      };
-
-                                    } ,
-                                      child: Container(
-
-                                        height: MediaQuery.of(context).size.height * 1 / 25,
-                                        width: MediaQuery.of(context).size.width * 3 / 12,
-                                        decoration: BoxDecoration(
-                                          gradient:  const LinearGradient(
-                                              begin: Alignment.topLeft,
-                                              end: Alignment.bottomRight,
-                                              colors: [
-                                                Colors.indigo,
-                                                mainColor,
-                                              ]),
-                                          borderRadius: BorderRadius.circular(16.0.r),
+                              constraints:   BoxConstraints(
+                                minHeight: 100.h,
+                                maxHeight:190.h,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(15.r),
+                                color: Colors.grey.shade50,
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8.0.w,
+                                            vertical: 8.h),
+                                        child: customText(
+                                          maxline: 1,
+                                          fontWeight: FontWeight.bold,
+                                          text:cubit.usermodel!.result!.createdRooms![index].statusId,
+                                          color: cubit.usermodel!.result!.createdRooms![index].statusId=="ACTIVE"?Colors.green:Colors.blue,
                                         ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          // ignore: prefer_const_literals_to_create_immutables
+                                      ),
+
+
+                                    
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5.h,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8.0.w),
+                                    child: customText(
+                                      fontWeight: FontWeight.bold,
+                                      text: cubit.usermodel!
+                                          .result!.createdRooms![index].name,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8.0.w),
+                                    child: customText(
+                                      maxline: 1,
+                                      fontWeight: FontWeight.normal,
+                                      text: '44 listening',
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(15.r),
+                                        color: Colors.grey.shade100,
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10.0.w,
+                                            vertical: 7.h),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
                                           children: [
-
-                                            Text(cubit.usermodel!.result!.createdRooms![index].userRoomStatus.nameEnglish,
-                                              style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.white),
+                                            Row(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment
+                                                  .start,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .start,
+                                              children: [
+                                                SizedBox(
+                                                    height: 25.h,
+                                                    width: 30.w,
+                                                    child: Image.asset(
+                                                        'assets/Profile Image.png')),
+                                                SizedBox(
+                                                  width: 10.w,
+                                                ),
+                                                customText(
+                                                  maxline: 1,
+                                                  fontWeight:
+                                                  FontWeight.bold,
+                                                  text: cubit
+                                                      .usermodel!
+                                                      .result!.name,
+                                                ),
+                                                SizedBox(
+                                                  width: 10.w,
+                                                ),
+                                                Container(
+                                                  color: Colors.white,
+                                                  height: 22.h,
+                                                  child: customText(
+                                                    maxline: 1,
+                                                    fontWeight:
+                                                    FontWeight
+                                                        .normal,
+                                                    text: 'Host',
+                                                  ),
+                                                )
+                                              ],
                                             ),
-
+                                            Expanded(
+                                              child: customText(
+maxline: 3,
+                                                fontWeight:
+                                                FontWeight.normal,
+                                                text: cubit
+                                                    .usermodel!
+                                                    .result!.createdRooms![index]
+                                                    .description,
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5.h,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0.w),
-                                  child: customText(
-                                    fontWeight: FontWeight.bold,
-                                    text: cubit.usermodel!
-                                        .result!.createdRooms![index].name,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0.w),
-                                  child: customText(
-                                    maxline: 1,
-                                    fontWeight: FontWeight.normal,
-                                    text: '44 listening',
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(15.r),
-                                      color: Colors.grey.shade100,
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 10.0.w,
-                                          vertical: 7.h),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Row(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment
-                                                .start,
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .start,
-                                            children: [
-                                              SizedBox(
-                                                  height: 25.h,
-                                                  width: 30.w,
-                                                  child: Image.asset(
-                                                      'assets/Profile Image.png')),
-                                              SizedBox(
-                                                width: 10.w,
-                                              ),
-                                              customText(
-                                                maxline: 1,
-                                                fontWeight:
-                                                FontWeight.bold,
-                                                text: cubit
-                                                    .usermodel!
-                                                    .result!.name,
-                                              ),
-                                              SizedBox(
-                                                width: 10.w,
-                                              ),
-                                              Container(
-                                                color: Colors.white,
-                                                height: 22.h,
-                                                child: customText(
-                                                  maxline: 1,
-                                                  fontWeight:
-                                                  FontWeight
-                                                      .normal,
-                                                  text: 'Host',
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          Expanded(
-                                            child: customText(
-maxline: 3,
-                                              fontWeight:
-                                              FontWeight.normal,
-                                              text: cubit
-                                                  .usermodel!
-                                                  .result!.createdRooms![index]
-                                                  .description,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );

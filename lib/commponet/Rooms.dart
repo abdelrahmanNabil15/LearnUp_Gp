@@ -139,6 +139,6 @@ class Rooms extends StatelessWidget {
       ),
       scrollDirection: Axis.vertical,
     );
-    ;
+
   }
 }

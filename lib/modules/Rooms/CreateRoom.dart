@@ -282,6 +282,9 @@ class _CreateRoomState extends State<CreateRoom> {
                                       Icons.date_range_outlined,
                                     ),
                                   ),
+
+                                  type: DateTimePickerType.dateTime,
+
                                   controller: startDateController,
                                   firstDate: DateTime(1900),
                                   lastDate: DateTime(2100),
@@ -299,6 +302,8 @@ class _CreateRoomState extends State<CreateRoom> {
                               SizedBox(
                                 width: 150.w,
                                 child: DateTimePicker(
+                                  type: DateTimePickerType.dateTime,
+
                                   toolbarOptions:
                                   ToolbarOptions(copy: true, paste: true),
                                   routeSettings: RouteSettings(),
@@ -333,7 +338,10 @@ class _CreateRoomState extends State<CreateRoom> {
                                   controller: expectedEndDateController,
                                   firstDate: DateTime(1900),
                                   lastDate: DateTime(2100),
+                                  timePickerEntryModeInput: true,
                                   dateLabelText: 'Date',
+                                  timeLabelText: "Hour",
+
                                   onChanged: (val) => print(val.toUpperCase()),
                                   validator:  (val) {
                                     if (val == null || val.isEmpty) {
@@ -352,10 +360,11 @@ SizedBox(height: 100.h,),
                      if (_formKey.currentState!.validate()&&_filters.isNotEmpty) {
                        cubit.CreateRooms(Cost: int.parse(priceController.text),
                            description: DescriptionController.text,
-                           EndDate: expectedEndDateController.text,
+                           EndDate: DateTime.parse(expectedEndDateController.text),
                            interests: _filters,
                            Name: nameroomController.text,
-                           StartDate: startDateController.text);
+                           StartDate:DateTime.parse(startDateController.text));
+
                      } else{
                        Fluttertoast.showToast(
                            msg: "Cannot Create Room with no interest",

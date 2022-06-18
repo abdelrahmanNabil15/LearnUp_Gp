@@ -39,6 +39,7 @@ class DioHelper {
   static Future<Response> getdata({
     required String url,
     required Map<String,dynamic> query,
+
 })async{
     return await dio.get(url,queryParameters: query,);
   }
@@ -47,17 +48,21 @@ class DioHelper {
   static Future<Response> getData({
     required String url,
     String? token,
+
     Map<String, dynamic>? query,
   }) {
     return dio.get(
       url,
+
       options: Options(
+
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
       ),
+
       queryParameters: query,
     );
   }

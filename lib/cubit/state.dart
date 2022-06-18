@@ -49,7 +49,18 @@ class InterestsSuccessState extends learnUpStates {
 
 }
 
-class InterestsErrorState extends learnUpStates {}
+class InterestsErrorState extends learnUpStates {
+  late final String error;
+
+  InterestsErrorState(this.error);
+
+}
+class DeleteInterestLoadingState extends learnUpStates {}
+class DeleteInterestSuccessState extends learnUpStates {
+
+}
+
+class DeleteInterestErrorState extends learnUpStates {}
 class GetInterestsLoadingState extends learnUpStates {}
 
 class GetInterestsSuccessState extends learnUpStates {
@@ -135,7 +146,6 @@ class DeleteanswerSuccessState extends learnUpStates {
 class DeleteanswerErrorState extends learnUpStates{}
 class FilesPickedSuccessState extends learnUpStates{}
 class UpdateanswerLoadingState extends learnUpStates {}
-
 class UpdateanswerSuccessState extends learnUpStates {
 }
 class UpdateanswerErrorState extends learnUpStates{}
@@ -151,4 +161,59 @@ class GetMaterialsLoadingState extends learnUpStates {}
 class GetMaterialsSuccessState extends learnUpStates {
 }
 class GetMaterialsErrorState extends learnUpStates{}
+class GetCreatedRoomsReportsLoadingState extends learnUpStates {}
+
+class GetCreatedRoomsReportsSuccessState extends learnUpStates {
+}
+class GetCreatedRoomsReportsErrorState extends learnUpStates{}
+
+class GetRoomReportLoadingState extends learnUpStates {}
+
+class GetRoomReportSuccessState extends learnUpStates {
+}
+class GetRoomReportErrorState extends learnUpStates{}
+
+class SearchLoadingState extends learnUpStates {}
+
+class SearchSuccessState extends learnUpStates {
+}
+class SearchErrorState extends learnUpStates{}
+  class InvitesLoadingState extends learnUpStates {}
+
+class InvitesSuccessState extends learnUpStates {
+}
+class InvitesErrorState extends learnUpStates{
+
+  late final String error;
+
+  InvitesErrorState(this.error);
+}
+
+class GetInvitesLoadingState extends learnUpStates {}
+
+class GetInvitesSuccessState extends learnUpStates {
+}
+class GetInvitesErrorState extends learnUpStates{}
+
+class AcceptInvitesLoadingState extends learnUpStates {}
+
+class AcceptInvitesSuccessState extends learnUpStates {
+}
+class AcceptInvitesErrorState extends learnUpStates{
+  late final String error;
+
+  AcceptInvitesErrorState(this.error);
+
+}
+
+class RejectInvitesLoadingState extends learnUpStates {}
+
+class RejectInvitesSuccessState extends learnUpStates {
+}
+class RejectInvitesErrorState extends learnUpStates{
+  late final String error;
+
+  RejectInvitesErrorState(this.error);
+
+}
 

@@ -17,6 +17,8 @@ void main() async {
   await CacheHelper.init();
 
   dynamic token = CacheHelper.getData(key: 'result');
+  dynamic meeting = CacheHelper.getData(key: 'meeting');
+
   //Widget widget;
   // if (token != null)
   //  widget = HomeScreen();

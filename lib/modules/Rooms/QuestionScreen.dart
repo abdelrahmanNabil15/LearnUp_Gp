@@ -32,7 +32,20 @@ class QuestionScreen extends StatelessWidget {
             learnUpCuibit()..Getanswer(idquestion: idQuestion.toString()),
         child: BlocConsumer<learnUpCuibit, learnUpStates>(
             listener: (context, state) {
-          print(learnUpCuibit.get(context).answerModel);
+
+              if(state is AddanswerSuccessState){
+                showToast(message: ' added successfully', state: ToastStates.SUCCESS);
+                learnUpCuibit.get(context).Getanswer(idquestion: idQuestion.toString());
+              }
+
+              if(state is UpdateanswerSuccessState){
+                showToast(message: " Updated successfully", state: ToastStates.SUCCESS);
+                learnUpCuibit.get(context).Getanswer(idquestion: idQuestion.toString());
+              }
+              if(state is DeleteanswerSuccessState){
+                showToast(message: " Deleted successfully", state: ToastStates.SUCCESS);
+                learnUpCuibit.get(context).Getanswer(idquestion: idQuestion.toString());
+              }
         }, builder: (context, Object? state) {
           var cubit = learnUpCuibit.get(context);
           return ConditionalBuilder(
@@ -278,6 +291,7 @@ class QuestionScreen extends StatelessWidget {
                                                                                     TextButton(
                                                                                       onPressed: () {
 
+                                                                                        Navigator.pop(context, 'Cancel');
                                                                                         Navigator.pop(context, 'Cancel');},
                                                                                       child: customText(
                                                                                           maxline: 1,
@@ -297,6 +311,7 @@ class QuestionScreen extends StatelessWidget {
                                                                                         );
                                                                                         AnswerController.clear();
                                                                                         cubit.Getanswer(idquestion: idQuestion.toString());
+                                                                                        Navigator.pop(context, 'Edit');
                                                                                         Navigator.pop(context, 'Edit');
                                                                                       }},
                                                                                       child: customText(
@@ -342,16 +357,13 @@ class QuestionScreen extends StatelessWidget {
                                                                         Future.delayed(
                                                                             const Duration(seconds: 0),
                                                                                 () => showDialog(
-
-
-
                                                                                 context: context,
                                                                                 builder: (context) => AlertDialogs(
                                                                                       () {
-
                                                                                     cubit.Deleteanswer(idasnwer: cubit.answerModel!.Questions!
                                                                                         .answers![index].answerId .toString());
                                                                                     cubit.Getanswer(idquestion: idQuestion.toString());
+                                                                                    Navigator.pop(context, 'Delete');
                                                                                     Navigator.pop(context, 'Delete');
 
                                                                                   },
@@ -523,7 +535,9 @@ class QuestionScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
+              onPressed: () { Navigator.pop(context, 'Cancel');
+    Navigator.pop(context, 'Delete');
+    },
               child: customText(
                   maxline: 1,
                   fontWeight: FontWeight.bold,
