@@ -366,7 +366,7 @@ width: MediaQuery.of(context).size.width-35,
                                   ),
                                 );
                               },
-                              itemCount: cubit.searchModel!.result!.rooms!.length>6?20:cubit.searchModel!.result!.rooms!.length,
+                              itemCount: cubit.searchModel!.result!.rooms!.length,
                               physics: const BouncingScrollPhysics(),
                               separatorBuilder: (context, index) => SizedBox(
                                 width: 20.w,
@@ -441,9 +441,7 @@ width: MediaQuery.of(context).size.width-35,
                               width: 15.w,
                             ),
                             scrollDirection: Axis.horizontal,
-                            itemCount: cubit.searchModel!.result!.interestsNumber > 6
-                                ? 6
-                                : cubit.searchModel!.result!.interestsNumber),
+                            itemCount:   cubit.searchModel!.result!.interestsNumber),
                       ):const Center(child: Text("Nothing to see here - yet."))
 
                           ],
@@ -455,14 +453,15 @@ width: MediaQuery.of(context).size.width-35,
                       color: Colors.white, child: Center(child: spinkitCircle)),
                 ):
                 SingleChildScrollView(
-                  child: Container( color:Colors.white,child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                  child: Container( color:Colors.white,child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Center( child:  Image.asset('assets/search.jpg'),),
+
                        Padding(
-                         padding: const EdgeInsets.all(8.0),
+                         padding: const EdgeInsets.all(20.0),
                          child: customText(fontWeight: FontWeight.bold,text: "Try searching for people,rooms,topics,or keywords",
-                          color: Colors.black,
-                          fontSize: 20 .sp,alignment: Alignment.center,),
+                          color: Colors.grey,
+                          fontSize: 12 .sp,alignment: Alignment.center,),
                        )
                     ],
                   )),

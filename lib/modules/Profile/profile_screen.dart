@@ -14,6 +14,7 @@ import '../../commponet/commpnet.dart';
 import '../../cubit/cubit.dart';
 import '../../cubit/state.dart';
 import '../Report/ReportRoomJoined.dart';
+import '../Rooms/JoinedRoomsScreen.dart';
 import '../Rooms/MyRoom.dart';
 import 'Interests.dart';
 import 'cubit/cubit.dart';
@@ -70,7 +71,7 @@ class profile_screen extends StatelessWidget {
                             profileMeun(
                               text: "Joined Rooms",
                               icon: "assets/myspace.svg",
-                              press: () => {navigateTo(context, ReportRoomsJoined())
+                              press: () => {navigateTo(context, MyRoomJoined())
                               },
                             ),
                             profileMeun(
@@ -107,16 +108,19 @@ class profile_screen extends StatelessWidget {
         alignment: Alignment.center,
         fit: StackFit.expand,
         clipBehavior: Clip.none,
+
         children: [
-          const CircleAvatar(
-            backgroundImage: AssetImage("assets/Profile Image.png"),
+          CircleAvatar(
+            backgroundColor: Colors.white,
+
+            child: Image.asset("assets/profile_pic.png",fit: BoxFit.fitHeight),
           ),
           Positioned(
-              right: -16.w,
-              bottom: 0.h,
+              right: 12.w,
+              bottom: 10.h,
               child: SizedBox(
-                  height: 46.h,
-                  width: 46.w,
+                  height: 30.h,
+                  width: 30.w,
                   child: TextButton(
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(

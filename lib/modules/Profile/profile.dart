@@ -207,15 +207,17 @@ class Profile extends StatelessWidget {
         fit: StackFit.expand,
         clipBehavior: Clip.none,
         children: [
-          const CircleAvatar(
-            backgroundImage: AssetImage("assets/Profile Image.png"),
+          CircleAvatar(
+            backgroundColor: Colors.white,
+
+            child: Image.asset("assets/profile_pic.png",fit: BoxFit.fitHeight),
           ),
           Positioned(
-              right: -16.w,
-              bottom: 0.h,
+              right: 12.w,
+              bottom: 10.h,
               child: SizedBox(
-                  height: 46.h,
-                  width: 46.w,
+                  height: 30.h,
+                  width: 30.w,
                   child: TextButton(
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(

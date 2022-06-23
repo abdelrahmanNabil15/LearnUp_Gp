@@ -324,7 +324,7 @@ Widget ROOMS(cubit) => GestureDetector(
                                 Colors.red);
                           }
                         }
-                        ;
+
                       },
                       child: Container(
                         height: MediaQuery.of(context).size.height * 1 / 25,
@@ -395,11 +395,7 @@ Widget ROOMS(cubit) => GestureDetector(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              SizedBox(
-                                  height: 25.h,
-                                  width: 30.w,
-                                  child:
-                                      Image.asset('assets/Profile Image.png')),
+
                               SizedBox(
                                 width: 10.w,
                               ),

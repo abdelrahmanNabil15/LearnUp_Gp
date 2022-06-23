@@ -99,7 +99,9 @@ class MyRoom extends StatelessWidget {
                                     child: customText(
                                       maxline: 1,
                                       fontWeight: FontWeight.normal,
-                                      text: '44 listening',
+                                      text: cubit.usermodel!
+                                          .result!.createdRooms![index].numberOfJoinedUsers.toString()=="0"?"no listening":cubit.usermodel!
+                                          .result!.createdRooms![index].numberOfJoinedUsers.toString()+"  listening",
                                     ),
                                   ),
                                   Expanded(
@@ -125,11 +127,6 @@ class MyRoom extends StatelessWidget {
                                               MainAxisAlignment
                                                   .start,
                                               children: [
-                                                SizedBox(
-                                                    height: 25.h,
-                                                    width: 30.w,
-                                                    child: Image.asset(
-                                                        'assets/Profile Image.png')),
                                                 SizedBox(
                                                   width: 10.w,
                                                 ),
@@ -191,7 +188,7 @@ maxline: 3,
               ):Container( color:Colors.white,child: Column(crossAxisAlignment: CrossAxisAlignment.center,
               children: [SizedBox(height: 80.h,),
                 Center( child:  Image.asset('assets/Warning.png'),),
-                customText(fontWeight: FontWeight.bold,text: "There is no rooms!",
+                customText(fontWeight: FontWeight.bold,text: "There are no rooms!",
                   color: Colors.black,
                   fontSize: 22.sp,alignment: Alignment.center,)
               ],

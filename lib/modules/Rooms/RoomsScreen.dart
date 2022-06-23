@@ -63,6 +63,7 @@ class RoomsScreen extends StatelessWidget {
                   String owner = cubit.roombyId!.result!.ownerId;
                   return Scaffold(
                     appBar: AppBar(
+                      
                       actions: [
                         ConditionalBuilder(
                           condition:cubit.requesteduserss!=null&&owner == idowner,
@@ -155,10 +156,8 @@ class RoomsScreen extends StatelessWidget {
                                   ? TextButton(
                                       onPressed: () async {
                                         {
-                                          CacheHelper.putData(key: 'meeting', value: true);
-                                          dynamic meeting = CacheHelper.getData(key: 'meeting');
-                                          print(meeting);
-                                          await _handleCameraAndMic(
+
+                                           await _handleCameraAndMic(
                                               Permission.camera);
                                           await _handleCameraAndMic(
                                               Permission.microphone);
@@ -180,7 +179,7 @@ class RoomsScreen extends StatelessWidget {
                                             ),
                                           );
                                         }
-                                        ;
+
                                       },
                                       child: Container (
                                         height: 40.h,
@@ -218,12 +217,17 @@ class RoomsScreen extends StatelessWidget {
                                   : TextButton(
                                       onPressed: () {
                                         {
-                                          // Navigator.of(context).push(
-                                          //   MaterialPageRoute(builder: (context) =>   RoomsScreen(id: cubit.roombyInterest!
-                                          //       .result!.)),
-                                          // );
-                                          dynamic meeting = CacheHelper.getData(key: 'meeting');
-                                          print(meeting);
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                              builder: (context) =>
+
+                                              CallPage(
+                                                channelName: cubit.roombyId!.result!.name,
+                                                role: ClientRole.Broadcaster,
+                                                UserName: cubit.roombyId!.result!.ownerName,
+                                              )));
+
                                         }
                                         ;
                                       },

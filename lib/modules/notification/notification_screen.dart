@@ -81,83 +81,81 @@ class _notification_screenState extends State<Notification_screen> {
             itemBuilder: (context, index) =>
 
             // Display the list item
-             Expanded(
-              child: Container(
+             Container(
 
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.r),
-                  color: Colors.grey.shade100,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(text:"@"+cubit.Myinvite["result"][index]["ownerName"], style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue,)),
-                          const TextSpan(text: ' invited you to visit his room '),
-                          TextSpan(text:cubit.Myinvite["result"][index]["roomName"],style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue,fontSize: 18) ),
+               width: double.infinity,
+               decoration: BoxDecoration(
+                 borderRadius: BorderRadius.circular(15.r),
+                 color: Colors.grey.shade100,
+               ),
+               child: Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     children: [
+                       RichText(
+                     text: TextSpan(
+                       style: DefaultTextStyle.of(context).style,
+                       children: <TextSpan>[
+                         TextSpan(text:"@"+cubit.Myinvite["result"][index]["ownerName"], style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue,)),
+                         const TextSpan(text: ' invited you to visit his room '),
+                         TextSpan(text:cubit.Myinvite["result"][index]["roomName"],style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue,fontSize: 18) ),
 
-                        ],
+                       ],
 
-                      ),
+                     ),
 
-                    ),
-                        Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            customText(fontWeight: FontWeight.bold,text: "Status: ",),
-                            customText(fontWeight: FontWeight.bold,text:
-                            cubit.Myinvite["result"][index]["statusId"]=="ACCEPTED"?"Accepted":
-                            cubit.Myinvite["result"][index]["statusId"]=="REJECTED"?"Rejected":"Pending",
-                              color: cubit.Myinvite["result"][index]["statusId"]=="ACCEPTED"?Colors.green:cubit.Myinvite["result"][index]["statusId"]=="REJECTED"?Colors.red:Colors.blue,)
+                   ),
+                       Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: [
+                           customText(fontWeight: FontWeight.bold,text: "Status: ",),
+                           customText(fontWeight: FontWeight.bold,text:
+                           cubit.Myinvite["result"][index]["statusId"]=="ACCEPTED"?"Accepted":
+                           cubit.Myinvite["result"][index]["statusId"]=="REJECTED"?"Rejected":"Pending",
+                             color: cubit.Myinvite["result"][index]["statusId"]=="ACCEPTED"?Colors.green:cubit.Myinvite["result"][index]["statusId"]=="REJECTED"?Colors.red:Colors.blue,)
 
-                          ],
-                        ),
+                         ],
+                       ),
 
-                        cubit.Myinvite["result"][index]["statusId"]=="ACCEPTED"||
-                            cubit.Myinvite["result"][index]["statusId"]=="REJECTED"?
+                       cubit.Myinvite["result"][index]["statusId"]=="ACCEPTED"||
+                           cubit.Myinvite["result"][index]["statusId"]=="REJECTED"?
 
-                        const Text(""): Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: mainColor, // background
-                                onPrimary: Colors.white, // foreground
-                              ),
-                              onPressed: () {
+                       const Text(""): Row(
+                         mainAxisAlignment: MainAxisAlignment.end,
+                         children: [
+                           ElevatedButton(
+                             style: ElevatedButton.styleFrom(
+                               primary: mainColor, // background
+                               onPrimary: Colors.white, // foreground
+                             ),
+                             onPressed: () {
 
-                                cubit.AcceptInvites(InviteId: cubit.Myinvite["result"][index]["id"].toString());
+                               cubit.AcceptInvites(InviteId: cubit.Myinvite["result"][index]["id"].toString());
 
-                                },
-                              child: Text('Accept'),
-                            ),
-                            SizedBox(width: 50.w,),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.grey.shade500, // background
-                                onPrimary: Colors.white, // foreground
-                              ),
-                              onPressed: () {
-                                cubit.RejectInvites(InviteId: cubit.Myinvite["result"][index]["id"].toString());
-                              },
-                              child: Text('Remove'),
-                            ),
-                          ],
-                        )
-
+                               },
+                             child: Text('Accept'),
+                           ),
+                           SizedBox(width: 50.w,),
+                           ElevatedButton(
+                             style: ElevatedButton.styleFrom(
+                               primary: Colors.grey.shade500, // background
+                               onPrimary: Colors.white, // foreground
+                             ),
+                             onPressed: () {
+                               cubit.RejectInvites(InviteId: cubit.Myinvite["result"][index]["id"].toString());
+                             },
+                             child: Text('Remove'),
+                           ),
+                         ],
+                       )
 
 
 
-                  ]),
-                ),
-              ),
-            )
+
+                 ]),
+               ),
+             )
           ),
         ));}
 

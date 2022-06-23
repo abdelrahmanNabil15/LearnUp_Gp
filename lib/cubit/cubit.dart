@@ -6,12 +6,12 @@ import 'package:http_parser/http_parser.dart ';
 import 'package:file_picker/file_picker.dart';
 import 'package:LearnUP/cubit/state.dart';
 import 'package:dio/dio.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mime_type/mime_type.dart';
 
 import '../model/AnswerModel.dart';
@@ -838,18 +838,16 @@ emit(UpdateanswerSuccessState());
       }
     });
   }
-  Map CreatedRoomsReports={};Future<void> GetUserCreatedRoomsReports( ) async {
+  Map CreatedRoomsReports={};
+  UserCreatedRoomsModel?userCreatedRoomsModel;
+  Future<void> GetUserCreatedRoomsReports( ) async {
     emit(GetCreatedRoomsReportsLoadingState());
 
     DioHelper.getData(url:GetUserCreatedRoomsReport, token: token)
         .then((value) {
-
-
-      CreatedRoomsReports=value.data;
-      print(CreatedRoomsReports["result"]["roomActivities"]);
-
-
-
+          userCreatedRoomsModel =UserCreatedRoomsModel.fromJson(value.data);
+        CreatedRoomsReports=value.data;
+      print(userCreatedRoomsModel!.result!.numberOfRooms);
           emit(GetCreatedRoomsReportsSuccessState ());
     }).catchError((error) {
       if (error) {
@@ -1200,6 +1198,48 @@ emit(UpdateanswerSuccessState());
       emit(DeleteInterestErrorState());
       if (kDebugMode) {
         print(error.toString());
+      }
+    });
+  }
+  Future<void> GetFile(  ) async {
+    emit(GetInvitesLoadingState());
+
+    DioHelper.getData(url :"/api/Rooms/4/Materials/1" , token: token)
+        .then((value) {
+       print( jsonDecode(value.data) );
+      emit(GetInvitesSuccessState ());
+    }).catchError((error) {
+      if (error) {
+
+        print('Dio error!');
+
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        /// Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+        emit(GetInvitesErrorState());
+      } else {
+        if (kDebugMode) {
+          print('STATUS: ${error.response?.statusCode}');
+        }
+        if (kDebugMode) {
+          print('DATA: ${error.response?.data}');
+        }
+        if (kDebugMode) {
+          print('HEADERS: ${error.response?.headers}');
+        }
+        /// Error due to setting up or sending the request
+        print('Error sending request!');
+        print(error.message);
+        emit(GetInvitesErrorState());
       }
     });
   }

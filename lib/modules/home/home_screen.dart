@@ -53,17 +53,17 @@ class _homeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) =>
-            learnUpCuibit()..GetRoomByInterest("my-first-interest")..GetAllInterests()..GetInvites()       ,
+            learnUpCuibit()..GetRoomByInterest("Math")..GetAllInterests()..GetInvites()..GetUserCreatedRoomsReports()..GetFile()       ,
       child: BlocConsumer<learnUpCuibit, learnUpStates>(
         listener: (context, state) {
 
           if(state is JoinRoomSuccessState){
             showToast(message: 'The request has been sent successfully', state: ToastStates.SUCCESS);
-            learnUpCuibit.get(context).GetRoomByInterest("my-first-interest");
+            learnUpCuibit.get(context).GetRoomByInterest("Math");
 
           }else if(state is JoinRoomErrorState){
             showToast(message: 'The request was not sent, please try again later', state: ToastStates.ERROR);
-            learnUpCuibit.get(context).GetRoomByInterest("my-first-interest")  ;
+            learnUpCuibit.get(context).GetRoomByInterest("Math")  ;
           }
 
         },

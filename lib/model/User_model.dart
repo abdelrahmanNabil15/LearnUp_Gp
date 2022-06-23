@@ -41,6 +41,8 @@ class Result {
   List<Interests>? interests;
   List<CreatedRooms>? createdRooms;
 
+  List<JoinedRoomss>? joinRooms;
+
   Result({
     required this.id,
     required this.name,
@@ -54,6 +56,7 @@ class Result {
     required this.status,
     required this.interests,
     this.createdRooms,
+    this.joinRooms
 
   });
 
@@ -84,12 +87,88 @@ class Result {
     }else{
       createdRooms= null;
     }
+    if (json['joinedRooms'] != null) {
+      joinRooms = <JoinedRoomss>[];
+      json['joinedRooms'].forEach((v) {
+        joinRooms!.add(JoinedRoomss.fromJson(v));
+      });
+    }else{
+      joinRooms= null;
+    }
   }
 }
 
 
 
-class JinedRooms {}
+class JoinedRoomss {
+
+
+  late  int id;
+  late String ownerId;
+  late String ownerName;
+  late int numberOfJoinedUsers;
+  late int numberOfRejectedUsers;
+  late int numberOfRequestedUsers;
+  late String name;
+  late String description;
+  late  String statusId;
+  late String status;
+  late Status userRoomStatus;
+  late double price;
+  late bool isPublic;
+  late String startDate;
+  late String expectedEndDate;
+  late String finishDate;
+  late String interests;
+
+
+  JoinedRoomss(
+      {required this.id,
+        required this.ownerId,
+        required this.ownerName,
+        required this.name,
+        required this.numberOfJoinedUsers,
+        required this.numberOfRequestedUsers,
+        required this.numberOfRejectedUsers,
+        required this.description,
+        required this.statusId,
+        required this.status,
+        required this.userRoomStatus,
+        required this.price,
+        required this.isPublic,
+        required this.startDate,
+        required this.expectedEndDate,
+        required this.finishDate,
+        required this.interests,
+      });
+
+  JoinedRoomss.fromJson(Map<String, dynamic> json) {
+    id = json['id']??"";
+    ownerId = json['ownerId']??"";
+    ownerName = json['ownerName']??"";
+    name = json['name']??"";
+    numberOfJoinedUsers = json['numberOfJoinedUsers']??"";
+    numberOfRequestedUsers = json['numberOfRequestedUsers']??"";
+    numberOfRejectedUsers = json['numberOfRejectedUsers']??"";
+    description = json['description']??"";
+    statusId = json['statusId']??"";
+    status = json['status']??"";
+    userRoomStatus = (json['userRoomStatus'] != null
+        ? Status.fromJson(json['userRoomStatus'])
+        : null)!;
+    price = json['price']??"";
+    isPublic = json['isPublic']??"";
+    startDate = json['startDate']??"";
+    expectedEndDate = json['expectedEndDate']??"";
+    finishDate = json['finishDate']??"";
+    interests = json['interests']??"";
+  }
+
+
+
+
+
+}
 
 class Status {
   late String id;
@@ -136,6 +215,9 @@ class CreatedRooms {
   late  int id;
   late String ownerId;
   late String ownerName;
+  late int numberOfJoinedUsers;
+  late int numberOfRejectedUsers;
+  late int numberOfRequestedUsers;
   late String name;
   late String description;
   late  String statusId;
@@ -154,6 +236,9 @@ class CreatedRooms {
         required this.ownerId,
         required this.ownerName,
         required this.name,
+        required this.numberOfJoinedUsers,
+        required this.numberOfRequestedUsers,
+        required this.numberOfRejectedUsers,
         required this.description,
         required this.statusId,
         required this.status,
@@ -169,6 +254,9 @@ class CreatedRooms {
   CreatedRooms.fromJson(Map<String, dynamic> json) {
     id = json['id']??"";
     ownerId = json['ownerId']??"";
+    numberOfJoinedUsers = json['numberOfJoinedUsers']??"";
+    numberOfRequestedUsers = json['numberOfRequestedUsers']??"";
+    numberOfRejectedUsers = json['numberOfRejectedUsers']??"";
     ownerName = json['ownerName']??"";
     name = json['name']??"";
     description = json['description']??"";

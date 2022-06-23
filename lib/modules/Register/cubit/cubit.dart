@@ -41,7 +41,6 @@ class RegisterCubit extends Cubit<RegisterStates> {
         print("Token::::::::::::::" + registerModel.result.toString());
 
         print(registerModel.messageCode);
-
         CacheHelper.putData(key: 'result', value: registerModel.result);
         dynamic token = CacheHelper.getData(key: 'result');
         print("result");

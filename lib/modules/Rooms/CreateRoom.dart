@@ -282,9 +282,7 @@ class _CreateRoomState extends State<CreateRoom> {
                                       Icons.date_range_outlined,
                                     ),
                                   ),
-
                                   type: DateTimePickerType.dateTime,
-
                                   controller: startDateController,
                                   firstDate: DateTime(1900),
                                   lastDate: DateTime(2100),
@@ -303,7 +301,6 @@ class _CreateRoomState extends State<CreateRoom> {
                                 width: 150.w,
                                 child: DateTimePicker(
                                   type: DateTimePickerType.dateTime,
-
                                   toolbarOptions:
                                   ToolbarOptions(copy: true, paste: true),
                                   routeSettings: RouteSettings(),
@@ -334,7 +331,6 @@ class _CreateRoomState extends State<CreateRoom> {
                                       Icons.date_range_outlined,
                                     ),
                                   ),
-
                                   controller: expectedEndDateController,
                                   firstDate: DateTime(1900),
                                   lastDate: DateTime(2100),

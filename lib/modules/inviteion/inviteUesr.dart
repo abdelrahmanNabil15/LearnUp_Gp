@@ -134,12 +134,15 @@ class _iniviteScreenState extends State<IniviteScreen> {
                   fallback: (BuildContext context) => Container(
                       color: Colors.white, child: Center(child: spinkitCircle)),
                 ):
-                Container( color:Colors.white,child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                Container( color:Colors.white,child: Column(mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Center( child:  Image.asset('assets/search.jpg'),),
-                  customText(fontWeight: FontWeight.bold,text: "Nothing to see here - yet.",
-                    color: Colors.black,
-                    fontSize: 25.sp,alignment: Alignment.center,)
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: customText(fontWeight: FontWeight.bold,text: "Try searching for people....",
+                      color: Colors.grey,
+                      fontSize: 12.sp,alignment: Alignment.center,),
+                  )
                 ],
               )),
               );
