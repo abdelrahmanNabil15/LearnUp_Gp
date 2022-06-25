@@ -1,8 +1,7 @@
 # LearnUp
  
-# 📖📖 Flutter eBook App [![Codemagic build status](https://api.codemagic.io/apps/5e230defc5faa60315b1df62/5e230defc5faa60315b1df61/status_badge.svg)](https://codemagic.io/apps/5e230defc5faa60315b1df62/5e230defc5faa60315b1df61/latest_build)
 
- #Project Idea![image](https://user-images.githubusercontent.com/66870853/175782003-0fef4d9f-8d1d-4cd1-bd2c-a0e8a66cf52a.png)
+ #Project Idea! 
 
 
 The project Idea is to connect teacher and learner in a simple way using the internet, and make it easier to deliver the homework or finding a good teacher also anyone can use it in their spare time to learn new things.
@@ -12,7 +11,7 @@ Every tutor will have his own room which he can handle the beginning and the end
 Learner can post a question and others can answer it.
 Teacher can post tasks and materials to the learners.
 Every user can choose his interests so application can recommend rooms depending on his interests.
-![image](https://user-images.githubusercontent.com/66870853/175782038-d8ccd444-1cba-40f3-8d04-f130a5103d78.png)
+
 
  
  
@@ -66,8 +65,8 @@ Every user can choose his interests so application can recommend rooms depending
 | ------------------------------------------------------- | --------------------------------------------------- |
 | [**Bloc**](https://pub.dev/packages/provider)       | State Management                                           |
 | [**DIO**](https://pub.dev/packages/dio)                 | Network calls and File Download                     |
-| [**agora_rtc_engine **](https://pub.dev/packages/dio](https://pub.dev/packages/agora_rtc_engine)                 | Vedio call and liveStreaming                     |
-| [**Shared preferences**](https://pub.dev/packages/epub_viewer](https://pub.dev/packages/shared_preferences) | A flutter plugin for Folioreader to read ePub files |
+| [**agora_rtc_engine*](https://pub.dev/packages/agora_rtc_engine)                 | Vedio call and liveStreaming                     |
+| [**Shared preferences**](https://pub.dev/packages/shared_preferences) |   |
 
  
 
