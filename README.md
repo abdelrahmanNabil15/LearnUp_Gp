@@ -45,7 +45,7 @@ Every user can choose his interests so application can recommend rooms depending
 
 <!-- <img src="ss/mockup.png"/> -->
 
-| Light                             | Dark                              |
+| Light                             |   Light                           |
 | --------------------------------- | --------------------------------- |
 | <img src="ss/1.jpg" width="400">  | <img src="ss/2.jpg" width="400">  |
 | <img src="ss/3.jpg" width="400">  | <img src="ss/4.jpg" width="400">  |
@@ -65,8 +65,9 @@ Every user can choose his interests so application can recommend rooms depending
 | ------------------------------------------------------- | --------------------------------------------------- |
 | [**Bloc**](https://pub.dev/packages/provider)       | State Management                                           |
 | [**DIO**](https://pub.dev/packages/dio)                 | Network calls and File Download                     |
-| [**agora_rtc_engine*](https://pub.dev/packages/agora_rtc_engine)                 | Vedio call and liveStreaming                     |
+| [**agora_rtc_engine**](https://pub.dev/packages/agora_rtc_engine)                 | Vedio call and liveStreaming                     |
 | [**Shared preferences**](https://pub.dev/packages/shared_preferences) |   |
+| [**flutter_screenutil**](https://pub.dev/packages/flutter_screenutil) | A flutter plugin for adapting screen and font size.Let your UI display a reasonable layout on different screen sizes!  |
 
  
 
